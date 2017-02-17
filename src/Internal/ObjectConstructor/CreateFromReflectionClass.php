@@ -29,7 +29,7 @@ final class CreateFromReflectionClass implements ObjectConstructor
      *
      * @param string $className
      */
-    public function __construct(string $className)
+    public function __construct($className)
     {
         $this->className = $className;
     }

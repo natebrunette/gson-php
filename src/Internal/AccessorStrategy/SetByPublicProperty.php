@@ -25,7 +25,7 @@ final class SetByPublicProperty implements SetterStrategy
      *
      * @param string $propertyName
      */
-    public function __construct(string $propertyName)
+    public function __construct($propertyName)
     {
         $this->propertyName = $propertyName;
     }
@@ -37,7 +37,7 @@ final class SetByPublicProperty implements SetterStrategy
      * @param mixed $value
      * @return void
      */
-    public function set($object, $value): void
+    public function set($object, $value)
     {
         $object->{$this->propertyName} = $value;
     }

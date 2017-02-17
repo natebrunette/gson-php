@@ -44,7 +44,7 @@ final class MetadataFactory
      * @return ClassMetadata
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function createClassMetadata(string $className): ClassMetadata
+    public function createClassMetadata($className)
     {
         return new DefaultClassMetadata($className, $this->annotationCollectionFactory->createClassAnnotations($className));
     }
@@ -56,7 +56,7 @@ final class MetadataFactory
      * @param ClassMetadata $classMetadata
      * @return PropertyMetadata
      */
-    public function createPropertyMetadata(Property $property, ClassMetadata $classMetadata): PropertyMetadata
+    public function createPropertyMetadata(Property $property, ClassMetadata $classMetadata)
     {
         return new DefaultPropertyMetadata(
             $property->getRealName(),

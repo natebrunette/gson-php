@@ -31,7 +31,7 @@ class Integer1Serializer implements JsonSerializer
      * @param JsonSerializationContext $context
      * @return JsonElement
      */
-    public function serialize($object, PhpType $type, JsonSerializationContext $context): JsonElement
+    public function serialize($object, PhpType $type, JsonSerializationContext $context)
     {
         $jsonObject = new JsonObject();
         $jsonObject->addInteger('integer', $object->getInteger() + 1);

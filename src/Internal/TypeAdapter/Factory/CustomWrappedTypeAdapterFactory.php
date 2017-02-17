@@ -57,7 +57,7 @@ final class CustomWrappedTypeAdapterFactory implements TypeAdapterFactory
      * @param PhpType $type
      * @return bool
      */
-    public function supports(PhpType $type): bool
+    public function supports(PhpType $type)
     {
         return $type->isA($this->type->getType());
     }
@@ -70,7 +70,7 @@ final class CustomWrappedTypeAdapterFactory implements TypeAdapterFactory
      * @param TypeAdapterProvider $typeAdapterProvider
      * @return TypeAdapter
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider): TypeAdapter
+    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
     {
         return new CustomWrappedTypeAdapter($type, $typeAdapterProvider, $this->serializer, $this->deserializer, $this);
     }

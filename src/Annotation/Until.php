@@ -47,7 +47,7 @@ class Until
      *
      * @return string
      */
-    public function getVersion(): string
+    public function getVersion()
     {
         return $this->value;
     }

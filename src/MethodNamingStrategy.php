@@ -22,7 +22,7 @@ interface MethodNamingStrategy
      * @param string $propertyName
      * @return array
      */
-    public function translateToGetter(string $propertyName): array;
+    public function translateToGetter($propertyName);
 
     /**
      * Accepts the PHP class property name and returns an array of the names
@@ -31,5 +31,5 @@ interface MethodNamingStrategy
      * @param string $propertyName
      * @return array
      */
-    public function translateToSetter(string $propertyName): array;
+    public function translateToSetter($propertyName);
 }

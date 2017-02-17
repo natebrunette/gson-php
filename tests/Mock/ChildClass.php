@@ -65,7 +65,7 @@ class ChildClass extends ChildClassParent
         $this->foo = $foo;
     }
 
-    public function getWithReturnType(): UserMock
+    public function getWithReturnType()
     {
         return $this->withTypehint;
     }
@@ -79,7 +79,7 @@ class ChildClass extends ChildClassParent
      * @VirtualProperty()
      * @SerializedName("new_virtual_property")
      */
-    public function virtualProperty(): string
+    public function virtualProperty()
     {
         return 'foo'.'bar';
     }

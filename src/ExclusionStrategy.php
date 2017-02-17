@@ -21,7 +21,7 @@ interface ExclusionStrategy
      * @param ClassMetadata $classMetadata
      * @return bool
      */
-    public function shouldSkipClass(ClassMetadata $classMetadata): bool;
+    public function shouldSkipClass(ClassMetadata $classMetadata);
 
     /**
      * Return true if the property should be ignored
@@ -29,5 +29,5 @@ interface ExclusionStrategy
      * @param PropertyMetadata $propertyMetadata
      * @return bool
      */
-    public function shouldSkipProperty(PropertyMetadata $propertyMetadata): bool;
+    public function shouldSkipProperty(PropertyMetadata $propertyMetadata);
 }

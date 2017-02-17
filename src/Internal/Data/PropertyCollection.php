@@ -51,7 +51,7 @@ final class PropertyCollection implements IteratorAggregate
      * @param string $name
      * @return Property|null
      */
-    public function getBySerializedName(string $name): ?Property
+    public function getBySerializedName($name)
     {
         if (!isset($this->elements[$name])) {
             return null;
@@ -75,7 +75,7 @@ final class PropertyCollection implements IteratorAggregate
      *
      * @return ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator()
     {
         return new ArrayIterator($this->toArray());
     }

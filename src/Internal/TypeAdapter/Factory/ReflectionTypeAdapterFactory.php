@@ -72,7 +72,7 @@ final class ReflectionTypeAdapterFactory implements TypeAdapterFactory
      * @param PhpType $type
      * @return bool
      */
-    public function supports(PhpType $type): bool
+    public function supports(PhpType $type)
     {
         if (!$type->isObject()) {
             return false;
@@ -90,7 +90,7 @@ final class ReflectionTypeAdapterFactory implements TypeAdapterFactory
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider): TypeAdapter
+    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
     {
         $properties = $this->propertyCollectionFactory->create($type);
         $objectConstructor = $this->constructorConstructor->get($type);

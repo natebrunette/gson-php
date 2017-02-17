@@ -753,7 +753,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
             ->build();
     }
 
-    private function json(): string
+    private function json()
     {
         $array = [
             'integer' => 1,
@@ -779,7 +779,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         return json_encode($array);
     }
 
-    private function gsonMock(): GsonMock
+    private function gsonMock()
     {
         $gsonMock = new GsonMock();
         $gsonMock->setInteger(1);

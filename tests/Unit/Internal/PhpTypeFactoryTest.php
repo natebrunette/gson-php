@@ -44,17 +44,6 @@ class PhpTypeFactoryTest extends PHPUnit_Framework_TestCase
         self::assertSame(UserMock::class, $phpType->getType());
     }
 
-    public function testCreateFromGetterReturnType()
-    {
-        $annotations = new AnnotationSet();
-        $factory = new PhpTypeFactory();
-        $getter = new ReflectionMethod(ChildClass::class, 'getWithReturnType');
-        $setter = new ReflectionMethod(ChildClass::class, 'setFoo');
-        $phpType = $factory->create($annotations, AnnotationSet::TYPE_PROPERTY, $getter, $setter);
-
-        self::assertSame(UserMock::class, $phpType->getType());
-    }
-
     public function testCreateFromSetterDefault()
     {
         $annotations = new AnnotationSet();

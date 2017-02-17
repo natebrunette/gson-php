@@ -51,7 +51,7 @@ class JsonAdapter
      *
      * @return string
      */
-    public function getClass(): string
+    public function getClass()
     {
         return $this->value;
     }

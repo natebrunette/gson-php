@@ -9,7 +9,6 @@ namespace Tebru\Gson\Test\Unit\Internal\AccessorStrategy;
 use PHPUnit_Framework_TestCase;
 use Tebru\Gson\Internal\AccessorStrategy\SetByMethod;
 use Tebru\Gson\Test\Mock\Unit\Internal\AccessorStrategy\SetByMethodTest\SetByMethodTestMock;
-use Throwable;
 
 /**
  * Class SetByMethodTest
@@ -27,13 +26,5 @@ class SetByMethodTest extends PHPUnit_Framework_TestCase
         $strategy->set($mock, 'bar');
 
         self::assertSame('bar', $mock->foo);
-    }
-
-    public function testSetterNoMethod()
-    {
-        $this->expectException(Throwable::class);
-
-        $strategy = new SetByMethod('foo');
-        $strategy->set(new SetByMethodTestMock(), 'bar');
     }
 }

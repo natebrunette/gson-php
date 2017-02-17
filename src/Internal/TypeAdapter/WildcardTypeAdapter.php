@@ -50,7 +50,7 @@ final class WildcardTypeAdapter extends TypeAdapter
     {
         switch ($reader->peek()) {
             case JsonToken::BEGIN_ARRAY:
-                $type = new DefaultPhpType(TypeToken::ARRAY);
+                $type = new DefaultPhpType(TypeToken::TYPE_ARRAY);
                 break;
             case JsonToken::BEGIN_OBJECT:
                 $type = new DefaultPhpType(TypeToken::OBJECT);
@@ -88,7 +88,7 @@ final class WildcardTypeAdapter extends TypeAdapter
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         $adapter = $this->typeAdapterProvider->getAdapter(DefaultPhpType::createFromVariable($value));
         $adapter->write($writer, $value);

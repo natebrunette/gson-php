@@ -26,6 +26,9 @@ use Tebru\Gson\Annotation\VirtualProperty;
  */
 class GsonMock
 {
+    /**
+     * @Type("int")
+     */
     private $integer;
     private $float;
     private $string;
@@ -96,55 +99,59 @@ class GsonMock
      */
     private $pseudoClass;
 
-    public function getInteger(): ?int
+    public function getInteger()
     {
-        return $this->integer;
+        if (null === $this->integer) {
+            return null;
+        }
+
+        return (int) $this->integer;
     }
 
-    public function setInteger(int $integer)
+    public function setInteger($integer)
     {
         $this->integer = $integer;
 
         return $this;
     }
 
-    public function getFloat(): ?float
+    public function getFloat()
     {
         return $this->float;
     }
 
-    public function setFloat(float $float)
+    public function setFloat($float)
     {
         $this->float = $float;
 
         return $this;
     }
 
-    public function getString(): ?string
+    public function getString()
     {
         return $this->string;
     }
 
-    public function setString(string $string)
+    public function setString($string)
     {
         $this->string = $string;
 
         return $this;
     }
 
-    public function getBoolean(): ?bool
+    public function getBoolean()
     {
         return $this->boolean;
     }
 
-    public function setBoolean(bool $boolean)
+    public function setBoolean($boolean)
     {
         $this->boolean = $boolean;
 
         return $this;
     }
 
-    public function getArray(): ?array
+    public function getArray()
     {
         return $this->array;
     }
@@ -156,7 +163,7 @@ class GsonMock
         return $this;
     }
 
-    public function getDate(): ?DateTime
+    public function getDate()
     {
         return $this->date;
     }
@@ -168,55 +175,55 @@ class GsonMock
         return $this;
     }
 
-    public function getSince(): ?string
+    public function getSince()
     {
         return $this->since;
     }
 
-    public function setSince(string $since)
+    public function setSince($since)
     {
         $this->since = $since;
 
         return $this;
     }
 
-    public function getUntil(): ?string
+    public function getUntil()
     {
         return $this->until;
     }
 
-    public function setUntil(string $until)
+    public function setUntil($until)
     {
         $this->until = $until;
 
         return $this;
     }
 
-    public function getMyAccessor(): ?string
+    public function getMyAccessor()
     {
         return $this->accessor;
     }
 
-    public function setMyAccessor(string $accessor)
+    public function setMyAccessor($accessor)
     {
         $this->accessor = $accessor;
 
         return $this;
     }
 
-    public function getSerializedname(): ?string
+    public function getSerializedname()
     {
         return $this->serializedname;
     }
 
-    public function setSerializedname(string $serializedname)
+    public function setSerializedname($serializedname)
     {
         $this->serializedname = $serializedname;
 
         return $this;
     }
 
-    public function getType(): ?array
+    public function getType()
     {
         return $this->type;
     }
@@ -228,7 +235,7 @@ class GsonMock
         return $this;
     }
 
-    public function getJsonAdapter(): ?GsonObjectMock
+    public function getJsonAdapter()
     {
         return $this->jsonAdapter;
     }
@@ -240,43 +247,43 @@ class GsonMock
         return $this;
     }
 
-    public function getExpose(): ?bool
+    public function getExpose()
     {
         return $this->expose;
     }
 
-    public function setExpose(bool $expose)
+    public function setExpose($expose)
     {
         $this->expose = $expose;
 
         return $this;
     }
 
-    public function getExclude(): ?bool
+    public function getExclude()
     {
         return $this->exclude;
     }
 
-    public function setExclude(bool $exclude)
+    public function setExclude($exclude)
     {
         $this->exclude = $exclude;
 
         return $this;
     }
 
-    public function getExcludeFromStrategy(): ?bool
+    public function getExcludeFromStrategy()
     {
         return $this->excludeFromStrategy;
     }
 
-    public function setExcludeFromStrategy(bool $excludeFromStrategy)
+    public function setExcludeFromStrategy($excludeFromStrategy)
     {
         $this->excludeFromStrategy = $excludeFromStrategy;
 
         return $this;
     }
 
-    public function getGsonObjectMock(): ?GsonObjectMock
+    public function getGsonObjectMock()
     {
         return $this->gsonObjectMock;
     }
@@ -302,7 +309,7 @@ class GsonMock
      * @VirtualProperty()
      * @SerializedName("virtual")
      */
-    public function myVirtualProperty(): int
+    public function myVirtualProperty()
     {
         return 2;
     }

@@ -40,7 +40,7 @@ final class DefaultJsonSerializationContext implements JsonSerializationContext
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function serialize($object): JsonElement
+    public function serialize($object)
     {
         $typeAdapter = $this->typeAdapterProvider->getAdapter(DefaultPhpType::createFromVariable($object));
 

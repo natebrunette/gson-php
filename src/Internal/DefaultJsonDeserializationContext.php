@@ -42,7 +42,7 @@ final class DefaultJsonDeserializationContext implements JsonDeserializationCont
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function deserialize(JsonElement $jsonElement, string $type)
+    public function deserialize(JsonElement $jsonElement, $type)
     {
         $typeAdapter = $this->typeAdapterProvider->getAdapter(new DefaultPhpType($type));
 

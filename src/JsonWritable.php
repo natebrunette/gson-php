@@ -18,28 +18,28 @@ interface JsonWritable
      *
      * @return JsonWritable
      */
-    public function beginArray(): JsonWritable;
+    public function beginArray();
 
     /**
      * End writing array
      *
      * @return JsonWritable
      */
-    public function endArray(): JsonWritable;
+    public function endArray();
 
     /**
      * Begin writing object
      *
      * @return JsonWritable
      */
-    public function beginObject(): JsonWritable;
+    public function beginObject();
 
     /**
      * End writing object
      *
      * @return JsonWritable
      */
-    public function endObject(): JsonWritable;
+    public function endObject();
 
     /**
      * Writes a property name
@@ -47,7 +47,7 @@ interface JsonWritable
      * @param string $name
      * @return JsonWritable
      */
-    public function name(string $name): JsonWritable;
+    public function name($name);
 
     /**
      * Write an integer value
@@ -55,7 +55,7 @@ interface JsonWritable
      * @param int $value
      * @return JsonWritable
      */
-    public function writeInteger(int $value): JsonWritable;
+    public function writeInteger($value);
 
     /**
      * Write a float value
@@ -63,7 +63,7 @@ interface JsonWritable
      * @param float $value
      * @return JsonWritable
      */
-    public function writeFloat(float $value): JsonWritable;
+    public function writeFloat($value);
 
     /**
      * Write a string value
@@ -71,7 +71,7 @@ interface JsonWritable
      * @param string $value
      * @return JsonWritable
      */
-    public function writeString(string $value): JsonWritable;
+    public function writeString($value);
 
     /**
      * Write a boolean value
@@ -79,7 +79,7 @@ interface JsonWritable
      * @param boolean $value
      * @return JsonWritable
      */
-    public function writeBoolean(bool $value): JsonWritable;
+    public function writeBoolean($value);
 
     /**
      * Write a null value if we are serializing nulls, otherwise
@@ -88,12 +88,12 @@ interface JsonWritable
      *
      * @return JsonWritable
      */
-    public function writeNull(): JsonWritable;
+    public function writeNull();
 
     /**
      * Sets whether nulls are serialized
      *
      * @param bool $serializeNull
      */
-    public function setSerializeNull(bool $serializeNull): void;
+    public function setSerializeNull($serializeNull);
 }

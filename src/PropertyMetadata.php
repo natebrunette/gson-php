@@ -21,56 +21,56 @@ interface PropertyMetadata
      *
      * @return string
      */
-    public function getName(): string;
+    public function getName();
 
     /**
      * Get the property serialized name
      *
      * @return string
      */
-    public function getSerializedName(): string;
+    public function getSerializedName();
 
     /**
      * Get the full php type object
      *
      * @return PhpType
      */
-    public function getType(): PhpType;
+    public function getType();
 
     /**
      * Get the property type as a string
      *
      * @return string
      */
-    public function getTypeName(): string;
+    public function getTypeName();
 
     /**
      * Get the property modifiers as a bitmap of [@see \ReflectionProperty] constants
      *
      * @return int
      */
-    public function getModifiers(): int;
+    public function getModifiers();
 
     /**
      * Get full declaring class metadata
      *
      * @return ClassMetadata
      */
-    public function getDeclaringClassMetadata(): ClassMetadata;
+    public function getDeclaringClassMetadata();
 
     /**
      * Get the declaring class name
      *
      * @return string
      */
-    public function getDeclaringClassName(): string;
+    public function getDeclaringClassName();
 
     /**
      * Get property annotations
      *
      * @return AnnotationSet
      */
-    public function getAnnotations(): AnnotationSet;
+    public function getAnnotations();
 
     /**
      * Get a single annotation, returns null if the annotation doesn't exist
@@ -78,12 +78,12 @@ interface PropertyMetadata
      * @param string $annotationName
      * @return null|object
      */
-    public function getAnnotation(string $annotationName);
+    public function getAnnotation($annotationName);
 
     /**
      * Returns true if the property is virtual
      *
      * @return bool
      */
-    public function isVirtual(): bool;
+    public function isVirtual();
 }

@@ -23,7 +23,7 @@ class BarPropertyExclusionStrategy implements ExclusionStrategy
      * @param ClassMetadata $classMetadata
      * @return bool
      */
-    public function shouldSkipClass(ClassMetadata $classMetadata): bool
+    public function shouldSkipClass(ClassMetadata $classMetadata)
     {
         return false;
     }
@@ -34,7 +34,7 @@ class BarPropertyExclusionStrategy implements ExclusionStrategy
      * @param PropertyMetadata $propertyMetadata
      * @return bool
      */
-    public function shouldSkipProperty(PropertyMetadata $propertyMetadata): bool
+    public function shouldSkipProperty(PropertyMetadata $propertyMetadata)
     {
         return 'bar' === $propertyMetadata->getName();
     }

@@ -81,13 +81,13 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      * @param bool $virtual
      */
     public function __construct(
-        string $name,
-        string $serializedName,
+        $name,
+        $serializedName,
         PhpType $type,
-        int $modifiers,
+        $modifiers,
         ClassMetadata $classMetadata,
         AnnotationSet $annotations,
-        bool $virtual
+        $virtual
     )
     {
         $this->name = $name;
@@ -104,7 +104,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -114,7 +114,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return string
      */
-    public function getSerializedName(): string
+    public function getSerializedName()
     {
         return $this->serializedName;
     }
@@ -124,7 +124,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return PhpType
      */
-    public function getType(): PhpType
+    public function getType()
     {
         return $this->type;
     }
@@ -134,7 +134,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return string
      */
-    public function getTypeName(): string
+    public function getTypeName()
     {
         return (string) $this->type;
     }
@@ -144,7 +144,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return int
      */
-    public function getModifiers(): int
+    public function getModifiers()
     {
         return $this->modifiers;
     }
@@ -154,7 +154,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return ClassMetadata
      */
-    public function getDeclaringClassMetadata(): ClassMetadata
+    public function getDeclaringClassMetadata()
     {
         return $this->classMetadata;
     }
@@ -164,7 +164,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return string
      */
-    public function getDeclaringClassName(): string
+    public function getDeclaringClassName()
     {
         return $this->classMetadata->getName();
     }
@@ -174,7 +174,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return AnnotationSet
      */
-    public function getAnnotations(): AnnotationSet
+    public function getAnnotations()
     {
         return $this->annotations;
     }
@@ -185,7 +185,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      * @param string $annotationName
      * @return null|object
      */
-    public function getAnnotation(string $annotationName)
+    public function getAnnotation($annotationName)
     {
         return $this->virtual
             ? $this->annotations->getAnnotation($annotationName, AnnotationSet::TYPE_METHOD)
@@ -197,7 +197,7 @@ final class DefaultPropertyMetadata implements PropertyMetadata
      *
      * @return bool
      */
-    public function isVirtual(): bool
+    public function isVirtual()
     {
         return $this->virtual;
     }

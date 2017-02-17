@@ -18,6 +18,8 @@ class UserMock
 {
     /**
      * @var int
+     *
+     * @Gson\Type("int")
      */
     private $id;
 
@@ -58,7 +60,7 @@ class UserMock
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -66,7 +68,7 @@ class UserMock
     /**
      * @param int $id
      */
-    public function setId(int $id)
+    public function setId($id)
     {
         $this->id = $id;
     }
@@ -74,7 +76,7 @@ class UserMock
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -82,7 +84,7 @@ class UserMock
     /**
      * @param string $email
      */
-    public function setEmail(string $email)
+    public function setEmail($email)
     {
         $this->email = $email;
     }
@@ -90,7 +92,7 @@ class UserMock
     /**
      * @return string
      */
-    public function getPassword(): ?string
+    public function getPassword()
     {
         return $this->password;
     }
@@ -98,7 +100,7 @@ class UserMock
     /**
      * @param string $password
      */
-    public function setPassword(string $password)
+    public function setPassword($password)
     {
         $this->password = $password;
     }
@@ -106,7 +108,7 @@ class UserMock
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -114,7 +116,7 @@ class UserMock
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -122,7 +124,7 @@ class UserMock
     /**
      * @return AddressMock
      */
-    public function getAddress(): ?AddressMock
+    public function getAddress()
     {
         return $this->address;
     }
@@ -138,7 +140,7 @@ class UserMock
     /**
      * @return string
      */
-    public function getPhone(): ?string
+    public function getPhone()
     {
         return $this->phone;
     }
@@ -146,7 +148,7 @@ class UserMock
     /**
      * @param string $phone
      */
-    public function setPhone(string $phone)
+    public function setPhone($phone)
     {
         $this->phone = $phone;
     }
@@ -154,7 +156,7 @@ class UserMock
     /**
      * @return bool
      */
-    public function isEnabled(): bool
+    public function isEnabled()
     {
         return $this->enabled;
     }
@@ -162,7 +164,7 @@ class UserMock
     /**
      * @param bool $enabled
      */
-    public function setEnabled(bool $enabled)
+    public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
     }

@@ -39,7 +39,7 @@ abstract class TypeAdapter
      * @param mixed $value
      * @return void
      */
-    abstract public function write(JsonWritable $writer, $value): void;
+    abstract public function write(JsonWritable $writer, $value);
 
     /**
      * Constructs a JsonReader for a given string of json and passes it to ::read()
@@ -70,7 +70,7 @@ abstract class TypeAdapter
      * @param bool $serializeNull
      * @return string
      */
-    public function writeToJson($var, bool $serializeNull): string
+    public function writeToJson($var, $serializeNull)
     {
         $writer = new JsonEncodeWriter();
         $writer->setSerializeNull($serializeNull);
@@ -86,7 +86,7 @@ abstract class TypeAdapter
      * @param mixed $var
      * @return JsonElement
      */
-    public function writeToJsonElement($var): JsonElement
+    public function writeToJsonElement($var)
     {
         $writer = new JsonElementWriter();
         $this->write($writer, $var);

@@ -23,7 +23,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isJsonObject(): bool
+    public function isJsonObject()
     {
         return $this instanceof JsonObject;
     }
@@ -33,7 +33,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isJsonArray(): bool
+    public function isJsonArray()
     {
         return $this instanceof JsonArray;
     }
@@ -43,7 +43,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isJsonPrimitive(): bool
+    public function isJsonPrimitive()
     {
         return $this instanceof JsonPrimitive;
     }
@@ -53,7 +53,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isJsonNull(): bool
+    public function isJsonNull()
     {
         return $this instanceof JsonNull;
     }
@@ -63,7 +63,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isString(): bool
+    public function isString()
     {
         return false;
     }
@@ -73,7 +73,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isInteger(): bool
+    public function isInteger()
     {
         return false;
     }
@@ -83,7 +83,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isFloat(): bool
+    public function isFloat()
     {
         return false;
     }
@@ -93,7 +93,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isNumber(): bool
+    public function isNumber()
     {
         return false;
     }
@@ -103,7 +103,7 @@ abstract class JsonElement implements JsonSerializable
      *
      * @return bool
      */
-    public function isBoolean(): bool
+    public function isBoolean()
     {
         return false;
     }
@@ -114,7 +114,7 @@ abstract class JsonElement implements JsonSerializable
      * @return string
      * @throws \Tebru\Gson\Exception\UnsupportedMethodException
      */
-    public function asString(): string
+    public function asString()
     {
         throw new UnsupportedMethodException(sprintf('This method "asString" is not supported on "%s"', get_called_class()));
     }
@@ -125,7 +125,7 @@ abstract class JsonElement implements JsonSerializable
      * @return int
      * @throws \Tebru\Gson\Exception\UnsupportedMethodException
      */
-    public function asInteger(): int
+    public function asInteger()
     {
         throw new UnsupportedMethodException(sprintf('This method "asInteger" is not supported on "%s"', get_called_class()));
     }
@@ -136,7 +136,7 @@ abstract class JsonElement implements JsonSerializable
      * @return float
      * @throws \Tebru\Gson\Exception\UnsupportedMethodException
      */
-    public function asFloat(): float
+    public function asFloat()
     {
         throw new UnsupportedMethodException(sprintf('This method "asFloat" is not supported on "%s"', get_called_class()));
     }
@@ -147,7 +147,7 @@ abstract class JsonElement implements JsonSerializable
      * @return bool
      * @throws \Tebru\Gson\Exception\UnsupportedMethodException
      */
-    public function asBoolean(): bool
+    public function asBoolean()
     {
         throw new UnsupportedMethodException(sprintf('This method "asBoolean" is not supported on "%s"', get_called_class()));
     }
@@ -158,7 +158,7 @@ abstract class JsonElement implements JsonSerializable
      * @return JsonObject
      * @throws \Tebru\Gson\Exception\UnsupportedMethodException
      */
-    public function asJsonObject(): JsonObject
+    public function asJsonObject()
     {
         throw new UnsupportedMethodException(sprintf('This method "asJsonObject" is not supported on "%s"', get_called_class()));
     }
@@ -169,7 +169,7 @@ abstract class JsonElement implements JsonSerializable
      * @return JsonArray
      * @throws \Tebru\Gson\Exception\UnsupportedMethodException
      */
-    public function asJsonArray(): JsonArray
+    public function asJsonArray()
     {
         throw new UnsupportedMethodException(sprintf('This method "asJsonArray" is not supported on "%s"', get_called_class()));
     }

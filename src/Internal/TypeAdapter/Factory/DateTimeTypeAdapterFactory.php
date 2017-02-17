@@ -30,7 +30,7 @@ final class DateTimeTypeAdapterFactory implements TypeAdapterFactory
      *
      * @param string $format
      */
-    public function __construct(string $format)
+    public function __construct($format)
     {
         $this->format = $format;
     }
@@ -42,7 +42,7 @@ final class DateTimeTypeAdapterFactory implements TypeAdapterFactory
      * @param PhpType $type
      * @return bool
      */
-    public function supports(PhpType $type): bool
+    public function supports(PhpType $type)
     {
         if (!$type->isObject()) {
             return false;
@@ -59,7 +59,7 @@ final class DateTimeTypeAdapterFactory implements TypeAdapterFactory
      * @param TypeAdapterProvider $typeAdapterProvider
      * @return TypeAdapter
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider): TypeAdapter
+    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
     {
         return new DateTimeTypeAdapter($type, $this->format);
     }

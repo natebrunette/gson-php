@@ -139,7 +139,7 @@ class GsonBuilder
      * @param TypeAdapterFactory $typeAdapterFactory
      * @return GsonBuilder
      */
-    public function addTypeAdapterFactory(TypeAdapterFactory $typeAdapterFactory): GsonBuilder
+    public function addTypeAdapterFactory(TypeAdapterFactory $typeAdapterFactory)
     {
         $this->typeAdapterFactories[] = $typeAdapterFactory;
 
@@ -157,7 +157,7 @@ class GsonBuilder
      * @throws \BadMethodCallException If the handler is not supported
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function registerType(string $type, $handler): GsonBuilder
+    public function registerType($type, $handler)
     {
         if ($handler instanceof TypeAdapter) {
             $this->typeAdapterFactories[] = new WrappedTypeAdapterFactory($handler, new DefaultPhpType($type));
@@ -194,7 +194,7 @@ class GsonBuilder
      * @return GsonBuilder
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function addInstanceCreator(string $type, InstanceCreator $instanceCreator): GsonBuilder
+    public function addInstanceCreator($type, InstanceCreator $instanceCreator)
     {
         $phpType = new DefaultPhpType($type);
         $this->instanceCreators[$phpType->getType()] = $instanceCreator;
@@ -208,7 +208,7 @@ class GsonBuilder
      * @param string $version
      * @return GsonBuilder
      */
-    public function setVersion(string $version): GsonBuilder
+    public function setVersion($version)
     {
         $this->version = $version;
 
@@ -225,7 +225,7 @@ class GsonBuilder
      * @param int $modifiers
      * @return GsonBuilder
      */
-    public function setExcludedModifier(int $modifiers): GsonBuilder
+    public function setExcludedModifier($modifiers)
     {
         $this->excludedModifiers = $modifiers;
 
@@ -237,7 +237,7 @@ class GsonBuilder
      *
      * @return GsonBuilder
      */
-    public function requireExposeAnnotation(): GsonBuilder
+    public function requireExposeAnnotation()
     {
         $this->requireExpose = true;
 
@@ -252,7 +252,7 @@ class GsonBuilder
      * @param bool $deserialization
      * @return GsonBuilder
      */
-    public function addExclusionStrategy(ExclusionStrategy $strategy, bool $serialization, bool $deserialization): GsonBuilder
+    public function addExclusionStrategy(ExclusionStrategy $strategy, $serialization, $deserialization)
     {
         $this->exclusionStrategies[] = [$strategy, $serialization, $deserialization];
 
@@ -265,7 +265,7 @@ class GsonBuilder
      * @param PropertyNamingStrategy $propertyNamingStrategy
      * @return GsonBuilder
      */
-    public function setPropertyNamingStrategy(PropertyNamingStrategy $propertyNamingStrategy): GsonBuilder
+    public function setPropertyNamingStrategy(PropertyNamingStrategy $propertyNamingStrategy)
     {
         $this->propertyNamingStrategy = $propertyNamingStrategy;
 
@@ -278,7 +278,7 @@ class GsonBuilder
      * @param MethodNamingStrategy $methodNamingStrategy
      * @return GsonBuilder
      */
-    public function setMethodNamingStrategy(MethodNamingStrategy $methodNamingStrategy): GsonBuilder
+    public function setMethodNamingStrategy(MethodNamingStrategy $methodNamingStrategy)
     {
         $this->methodNamingStrategy = $methodNamingStrategy;
 
@@ -290,7 +290,7 @@ class GsonBuilder
      *
      * @return GsonBuilder
      */
-    public function serializeNull(): GsonBuilder
+    public function serializeNull()
     {
         $this->serializeNull = true;
 
@@ -303,7 +303,7 @@ class GsonBuilder
      * @param string $format
      * @return GsonBuilder
      */
-    public function setDateTimeFormat(string $format): GsonBuilder
+    public function setDateTimeFormat($format)
     {
         $this->dateTimeFormat = $format;
 
@@ -316,7 +316,7 @@ class GsonBuilder
      * @param bool $enableCache
      * @return GsonBuilder
      */
-    public function enableCache(bool $enableCache): GsonBuilder
+    public function enableCache($enableCache)
     {
         $this->enableCache = $enableCache;
 
@@ -329,7 +329,7 @@ class GsonBuilder
      * @param string $cacheDir
      * @return GsonBuilder
      */
-    public function setCacheDir(string $cacheDir): GsonBuilder
+    public function setCacheDir($cacheDir)
     {
         $this->cacheDir = $cacheDir.'/gson';
 
@@ -343,14 +343,14 @@ class GsonBuilder
      * @throws \InvalidArgumentException If there was a problem creating the cache
      * @throws \LogicException If trying to cache without a cache directory
      */
-    public function build(): Gson
+    public function build()
     {
         if (null === $this->cacheDir && true === $this->enableCache) {
             throw new LogicException('Cannot enable cache without a cache directory');
         }
 
-        $propertyNamingStrategy = $this->propertyNamingStrategy ?? new SnakePropertyNamingStrategy();
-        $methodNamingStrategy = $this->methodNamingStrategy ?? new UpperCaseMethodNamingStrategy();
+        $propertyNamingStrategy = null !== $this->propertyNamingStrategy ? $this->propertyNamingStrategy : new SnakePropertyNamingStrategy();
+        $methodNamingStrategy = null !== $this->methodNamingStrategy ? $this->methodNamingStrategy : new UpperCaseMethodNamingStrategy();
 
         $doctrineAnnotationCache = false === $this->enableCache ? new ArrayCache(): new ChainCache([new ArrayCache(), new FilesystemCache($this->cacheDir)]);
         $doctrineAnnotationCache->setNamespace('doctrine_annotation_cache');
@@ -412,7 +412,7 @@ class GsonBuilder
         AnnotationCollectionFactory $annotationCollectionFactory,
         MetadataFactory $metadataFactory,
         ConstructorConstructor $constructorConstructor
-    ): array
+    )
     {
         return array_merge(
             [

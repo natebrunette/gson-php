@@ -25,7 +25,7 @@ class GsonMockExclusionStrategyMock implements ExclusionStrategy
      * @param ClassMetadata $classMetadata
      * @return bool
      */
-    public function shouldSkipClass(ClassMetadata $classMetadata): bool
+    public function shouldSkipClass(ClassMetadata $classMetadata)
     {
         return false;
     }
@@ -36,7 +36,7 @@ class GsonMockExclusionStrategyMock implements ExclusionStrategy
      * @param PropertyMetadata $propertyMetadata
      * @return bool
      */
-    public function shouldSkipProperty(PropertyMetadata $propertyMetadata): bool
+    public function shouldSkipProperty(PropertyMetadata $propertyMetadata)
     {
         if (false === $this->skipProperty) {
             return false;

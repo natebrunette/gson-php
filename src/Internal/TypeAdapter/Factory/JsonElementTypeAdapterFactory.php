@@ -27,7 +27,7 @@ final class JsonElementTypeAdapterFactory implements TypeAdapterFactory
      * @param PhpType $type
      * @return bool
      */
-    public function supports(PhpType $type): bool
+    public function supports(PhpType $type)
     {
         if (!$type->isObject()) {
             return false;
@@ -44,7 +44,7 @@ final class JsonElementTypeAdapterFactory implements TypeAdapterFactory
      * @param TypeAdapterProvider $typeAdapterProvider
      * @return TypeAdapter
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider): TypeAdapter
+    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
     {
         return new JsonElementTypeAdapter();
     }

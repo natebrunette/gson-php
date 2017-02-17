@@ -31,7 +31,7 @@ final class JsonElementTypeAdapter extends TypeAdapter
      * @return mixed
      * @throws \LogicException If the token can not be handled
      */
-    public function read(JsonReadable $reader): JsonElement
+    public function read(JsonReadable $reader)
     {
         switch ($reader->peek()) {
             case JsonToken::BEGIN_OBJECT:
@@ -76,7 +76,7 @@ final class JsonElementTypeAdapter extends TypeAdapter
      * @return void
      * @throws \Tebru\Gson\Exception\UnsupportedMethodException
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if (null === $value || $value->isJsonNull()) {
             $writer->writeNull();

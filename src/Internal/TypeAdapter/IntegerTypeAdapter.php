@@ -24,7 +24,7 @@ final class IntegerTypeAdapter extends TypeAdapter
      * @param JsonReadable $reader
      * @return int|null
      */
-    public function read(JsonReadable $reader): ?int
+    public function read(JsonReadable $reader)
     {
         if ($reader->peek() === JsonToken::NULL) {
             return $reader->nextNull();
@@ -40,7 +40,7 @@ final class IntegerTypeAdapter extends TypeAdapter
      * @param int $value
      * @return void
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if (null === $value) {
             $writer->writeNull();

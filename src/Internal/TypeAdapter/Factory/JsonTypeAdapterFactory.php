@@ -44,7 +44,7 @@ final class JsonTypeAdapterFactory implements TypeAdapterFactory
      * @return bool
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function supports(PhpType $type): bool
+    public function supports(PhpType $type)
     {
         if (!$type->isObject()) {
             return false;
@@ -69,7 +69,7 @@ final class JsonTypeAdapterFactory implements TypeAdapterFactory
      * @throws \InvalidArgumentException if an invalid adapter is found
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider): TypeAdapter
+    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
     {
         $annotations = $this->annotationCollectionFactory->createClassAnnotations($type->getType());
 

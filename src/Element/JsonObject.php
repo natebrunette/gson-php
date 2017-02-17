@@ -34,7 +34,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @param string $value
      */
-    public function addString(string $property, ?string $value)
+    public function addString($property, $value)
     {
         $this->add($property, JsonPrimitive::create($value));
     }
@@ -45,7 +45,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @param int $value
      */
-    public function addInteger(string $property, ?int $value)
+    public function addInteger($property, $value)
     {
         $this->add($property, JsonPrimitive::create($value));
     }
@@ -56,7 +56,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @param float $value
      */
-    public function addFloat(string $property, ?float $value)
+    public function addFloat($property, $value)
     {
         $this->add($property, JsonPrimitive::create($value));
     }
@@ -67,7 +67,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @param bool $value
      */
-    public function addBoolean(string $property, ?bool $value)
+    public function addBoolean($property, $value)
     {
         $this->add($property, JsonPrimitive::create($value));
     }
@@ -78,7 +78,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @param JsonElement $jsonElement
      */
-    public function add(string $property, JsonElement $jsonElement)
+    public function add($property, JsonElement $jsonElement)
     {
         $this->properties[$property] = $jsonElement;
     }
@@ -89,7 +89,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @return bool
      */
-    public function has(string $property): bool
+    public function has($property)
     {
         return isset($this->properties[$property]);
     }
@@ -100,7 +100,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @return JsonElement
      */
-    public function get(string $property): JsonElement
+    public function get($property)
     {
         return $this->properties[$property];
     }
@@ -112,7 +112,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @return JsonPrimitive
      * @throws \BadMethodCallException If the value is not a primitive
      */
-    public function getAsJsonPrimitive(string $property): JsonPrimitive
+    public function getAsJsonPrimitive($property)
     {
         /** @var JsonPrimitive $jsonElement */
         $jsonElement = $this->properties[$property];
@@ -131,7 +131,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @return JsonObject
      * @throws \BadMethodCallException If the value is not an object
      */
-    public function getAsJsonObject(string $property): JsonObject
+    public function getAsJsonObject($property)
     {
         /** @var JsonObject $jsonElement */
         $jsonElement = $this->properties[$property];
@@ -150,7 +150,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @return JsonArray
      * @throws \BadMethodCallException If the value is not an array
      */
-    public function getAsJsonArray(string $property): JsonArray
+    public function getAsJsonArray($property)
     {
         /** @var JsonArray $jsonElement */
         $jsonElement = $this->properties[$property];
@@ -169,7 +169,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @return string
      * @throws \BadMethodCallException If the value is not a primitive
      */
-    public function getAsString(string $property): string
+    public function getAsString($property)
     {
         return $this->getAsJsonPrimitive($property)->asString();
     }
@@ -181,7 +181,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @return int
      * @throws \BadMethodCallException If the value is not a primitive
      */
-    public function getAsInteger(string $property): int
+    public function getAsInteger($property)
     {
         return $this->getAsJsonPrimitive($property)->asInteger();
     }
@@ -193,7 +193,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @return float
      * @throws \BadMethodCallException If the value is not a primitive
      */
-    public function getAsFloat(string $property): float
+    public function getAsFloat($property)
     {
         return $this->getAsJsonPrimitive($property)->asFloat();
     }
@@ -205,7 +205,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @return boolean
      * @throws \BadMethodCallException If the value is not a primitive
      */
-    public function getAsBoolean(string $property): bool
+    public function getAsBoolean($property)
     {
         return $this->getAsJsonPrimitive($property)->asBoolean();
     }
@@ -216,7 +216,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @return array
      */
-    public function getAsArray(string $property)
+    public function getAsArray($property)
     {
         return json_decode(json_encode($this->get($property)), true);
     }
@@ -226,7 +226,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      *
      * @return JsonObject
      */
-    public function asJsonObject(): JsonObject
+    public function asJsonObject()
     {
         return $this;
     }
@@ -237,7 +237,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      * @param string $property
      * @return bool
      */
-    public function remove(string $property): bool
+    public function remove($property)
     {
         if (!isset($this->properties[$property])) {
             return false;
@@ -268,7 +268,7 @@ class JsonObject extends JsonElement implements IteratorAggregate, Countable
      *
      * @return ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator()
     {
         return new ArrayIterator($this->properties);
     }

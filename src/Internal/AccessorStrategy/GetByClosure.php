@@ -45,7 +45,7 @@ final class GetByClosure implements GetterStrategy
      * @param string $propertyName
      * @param string $className
      */
-    public function __construct(string $propertyName, string $className)
+    public function __construct($propertyName, $className)
     {
         $this->propertyName = $propertyName;
         $this->className = $className;
@@ -60,7 +60,7 @@ final class GetByClosure implements GetterStrategy
     public function get($object)
     {
         if (null === $this->getter) {
-            $this->getter = Closure::bind(function ($object, string $propertyName) {
+            $this->getter = Closure::bind(function ($object, $propertyName) {
                 return $object->{$propertyName};
             }, null, $this->className);
         }

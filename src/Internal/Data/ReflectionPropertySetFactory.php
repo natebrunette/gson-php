@@ -25,7 +25,7 @@ final class ReflectionPropertySetFactory
      * @param ReflectionClass $reflectionClass
      * @return ReflectionPropertySet
      */
-    public function create(ReflectionClass $reflectionClass): ReflectionPropertySet
+    public function create(ReflectionClass $reflectionClass)
     {
         $properties = new ReflectionPropertySet();
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {

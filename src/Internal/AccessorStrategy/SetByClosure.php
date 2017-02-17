@@ -37,7 +37,7 @@ final class SetByClosure implements SetterStrategy
      * @param string $propertyName
      * @param string $className
      */
-    public function __construct(string $propertyName, string $className)
+    public function __construct($propertyName, $className)
     {
         $this->propertyName = $propertyName;
         $this->className = $className;
@@ -50,10 +50,10 @@ final class SetByClosure implements SetterStrategy
      * @param mixed $value
      * @return void
      */
-    public function set($object, $value): void
+    public function set($object, $value)
     {
         if (null === $this->setter) {
-            $this->setter = Closure::bind(function ($object, $value, string $propertyName) {
+            $this->setter = Closure::bind(function ($object, $value, $propertyName) {
                 $object->{$propertyName} = $value;
             }, null, $this->className);
         }

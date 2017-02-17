@@ -24,7 +24,7 @@ interface TypeAdapterFactory
      * @param PhpType $type
      * @return bool
      */
-    public function supports(PhpType $type): bool;
+    public function supports(PhpType $type);
 
     /**
      * Accepts the current type and a [@see TypeAdapterProvider] in case another type adapter needs
@@ -34,5 +34,5 @@ interface TypeAdapterFactory
      * @param TypeAdapterProvider $typeAdapterProvider
      * @return TypeAdapter
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider): TypeAdapter;
+    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider);
 }

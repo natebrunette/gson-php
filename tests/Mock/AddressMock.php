@@ -6,6 +6,8 @@
 
 namespace Tebru\Gson\Test\Mock;
 
+use Tebru\Gson\Annotation as Gson;
+
 /**
  * Class AddressMock
  *
@@ -30,13 +32,15 @@ class AddressMock
 
     /**
      * @var int
+     *
+     * @Gson\Type("int")
      */
     private $zip;
 
     /**
      * @return string
      */
-    public function getStreet(): string
+    public function getStreet()
     {
         return $this->street;
     }
@@ -44,7 +48,7 @@ class AddressMock
     /**
      * @param string $street
      */
-    public function setStreet(string $street)
+    public function setStreet($street)
     {
         $this->street = $street;
     }
@@ -52,7 +56,7 @@ class AddressMock
     /**
      * @return string
      */
-    public function getCity(): string
+    public function getCity()
     {
         return $this->city;
     }
@@ -60,7 +64,7 @@ class AddressMock
     /**
      * @param string $city
      */
-    public function setCity(string $city)
+    public function setCity($city)
     {
         $this->city = $city;
     }
@@ -68,7 +72,7 @@ class AddressMock
     /**
      * @return string
      */
-    public function getState(): string
+    public function getState()
     {
         return $this->state;
     }
@@ -76,7 +80,7 @@ class AddressMock
     /**
      * @param string $state
      */
-    public function setState(string $state)
+    public function setState($state)
     {
         $this->state = $state;
     }
@@ -84,7 +88,7 @@ class AddressMock
     /**
      * @return int
      */
-    public function getZip(): int
+    public function getZip()
     {
         return $this->zip;
     }
@@ -92,7 +96,7 @@ class AddressMock
     /**
      * @param int $zip
      */
-    public function setZip(int $zip)
+    public function setZip($zip)
     {
         $this->zip = $zip;
     }

@@ -70,7 +70,7 @@ final class JsonElementReader implements JsonReadable
      * @return void
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not BEGIN_ARRAY
      */
-    public function beginArray(): void
+    public function beginArray()
     {
         if ($this->peek() !== JsonToken::BEGIN_ARRAY) {
             throw new UnexpectedJsonTokenException(
@@ -89,7 +89,7 @@ final class JsonElementReader implements JsonReadable
      * @return void
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not END_ARRAY
      */
-    public function endArray(): void
+    public function endArray()
     {
         if ($this->peek() !== JsonToken::END_ARRAY) {
             throw new UnexpectedJsonTokenException(
@@ -106,7 +106,7 @@ final class JsonElementReader implements JsonReadable
      * @return void
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not BEGIN_OBJECT
      */
-    public function beginObject(): void
+    public function beginObject()
     {
         if ($this->peek() !== JsonToken::BEGIN_OBJECT) {
             throw new UnexpectedJsonTokenException(
@@ -126,7 +126,7 @@ final class JsonElementReader implements JsonReadable
      * @return void
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not END_OBJECT
      */
-    public function endObject(): void
+    public function endObject()
     {
         if ($this->peek() !== JsonToken::END_OBJECT) {
             throw new UnexpectedJsonTokenException(
@@ -144,7 +144,7 @@ final class JsonElementReader implements JsonReadable
      *
      * @return bool
      */
-    public function hasNext(): bool
+    public function hasNext()
     {
         $peek = $this->peek();
 
@@ -157,7 +157,7 @@ final class JsonElementReader implements JsonReadable
      * @return bool
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not BOOLEAN
      */
-    public function nextBoolean(): bool
+    public function nextBoolean()
     {
         if ($this->peek() !== JsonToken::BOOLEAN) {
             throw new UnexpectedJsonTokenException(
@@ -177,7 +177,7 @@ final class JsonElementReader implements JsonReadable
      * @return double
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NUMBER
      */
-    public function nextDouble(): float
+    public function nextDouble()
     {
         if ($this->peek() !== JsonToken::NUMBER) {
             throw new UnexpectedJsonTokenException(
@@ -197,7 +197,7 @@ final class JsonElementReader implements JsonReadable
      * @return int
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NUMBER
      */
-    public function nextInteger(): int
+    public function nextInteger()
     {
         if ($this->peek() !== JsonToken::NUMBER) {
             throw new UnexpectedJsonTokenException(
@@ -217,7 +217,7 @@ final class JsonElementReader implements JsonReadable
      * @return string
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NAME or STRING
      */
-    public function nextString(): string
+    public function nextString()
     {
         $peek = $this->peek();
         if ($peek === JsonToken::NAME) {
@@ -261,7 +261,7 @@ final class JsonElementReader implements JsonReadable
      * @return string
      * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NAME
      */
-    public function nextName(): string
+    public function nextName()
     {
         if ($this->peek() !== JsonToken::NAME) {
             throw new UnexpectedJsonTokenException(
@@ -285,7 +285,7 @@ final class JsonElementReader implements JsonReadable
      *
      * @return string
      */
-    public function peek(): string
+    public function peek()
     {
         if (null !== $this->currentToken) {
             return $this->currentToken;
@@ -348,7 +348,7 @@ final class JsonElementReader implements JsonReadable
      *
      * @return void
      */
-    public function skipValue(): void
+    public function skipValue()
     {
         $this->pop();
     }
@@ -359,7 +359,7 @@ final class JsonElementReader implements JsonReadable
      * @param JsonElement|Iterator $element
      * @param string $type
      */
-    private function push($element, $type = null): void
+    private function push($element, $type = null)
     {
         if (null === $type) {
             $type = get_class($element);

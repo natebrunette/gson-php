@@ -24,7 +24,7 @@ class UserMockExclusionStrategy implements ExclusionStrategy
      * @param ClassMetadata $classMetadata
      * @return bool
      */
-    public function shouldSkipClass(ClassMetadata $classMetadata): bool
+    public function shouldSkipClass(ClassMetadata $classMetadata)
     {
         return UserMock::class === $classMetadata->getName();
     }
@@ -35,7 +35,7 @@ class UserMockExclusionStrategy implements ExclusionStrategy
      * @param PropertyMetadata $propertyMetadata
      * @return bool
      */
-    public function shouldSkipProperty(PropertyMetadata $propertyMetadata): bool
+    public function shouldSkipProperty(PropertyMetadata $propertyMetadata)
     {
         return false;
     }

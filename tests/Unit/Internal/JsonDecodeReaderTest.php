@@ -560,7 +560,7 @@ class JsonDecodeReaderTest extends PHPUnit_Framework_TestCase
         return [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [-1]];
     }
 
-    private function stack(JsonDecodeReader $reader): array
+    private function stack(JsonDecodeReader $reader)
     {
         return self::readAttribute($reader, 'stack');
     }

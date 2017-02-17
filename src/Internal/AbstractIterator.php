@@ -51,7 +51,7 @@ abstract class AbstractIterator implements Iterator
      *
      * @return void
      */
-    public function next(): void
+    public function next()
     {
         $this->iterated++;
     }
@@ -61,7 +61,7 @@ abstract class AbstractIterator implements Iterator
      *
      * @return string
      */
-    public function key(): string
+    public function key()
     {
         return $this->queue[$this->iterated][0];
     }
@@ -71,7 +71,7 @@ abstract class AbstractIterator implements Iterator
      *
      * @return bool
      */
-    public function valid(): bool
+    public function valid()
     {
         return $this->total > $this->iterated;
     }
@@ -81,7 +81,7 @@ abstract class AbstractIterator implements Iterator
      *
      * @return void
      */
-    public function rewind(): void
+    public function rewind()
     {
         $this->iterated = 0;
     }

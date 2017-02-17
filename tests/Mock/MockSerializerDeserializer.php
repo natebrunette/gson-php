@@ -31,7 +31,7 @@ class MockSerializerDeserializer implements JsonSerializer, JsonDeserializer
      * @param JsonSerializationContext $context
      * @return JsonElement
      */
-    public function serialize($object, PhpType $type, JsonSerializationContext $context): JsonElement
+    public function serialize($object, PhpType $type, JsonSerializationContext $context)
     {
         $jsonUser = new JsonObject();
         $jsonUser->addInteger('id', $object->getId());
@@ -59,7 +59,7 @@ class MockSerializerDeserializer implements JsonSerializer, JsonDeserializer
      * @param JsonDeserializationContext $context
      * @return UserMock
      */
-    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context): UserMock
+    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context)
     {
         /** @var JsonObject $jsonUser */
         $jsonUser = $jsonElement;

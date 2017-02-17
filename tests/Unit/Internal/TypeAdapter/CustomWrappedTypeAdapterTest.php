@@ -129,7 +129,7 @@ class CustomWrappedTypeAdapterTest extends PHPUnit_Framework_TestCase
         self::assertJsonStringEqualsJsonString($expectedJson, $json);
     }
 
-    private function json(): string
+    private function json()
     {
         return '{
             "id": 1,
@@ -145,7 +145,7 @@ class CustomWrappedTypeAdapterTest extends PHPUnit_Framework_TestCase
         }';
     }
 
-    private function user(): UserMock
+    private function user()
     {
         $user = new UserMock();
         $user->setId(1);

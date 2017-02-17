@@ -36,7 +36,7 @@ final class PhpTypeFactory
      * @return PhpType
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function create(AnnotationSet $annotations, int $filter, ReflectionMethod $getterMethod = null, ReflectionMethod $setterMethod = null): PhpType
+    public function create(AnnotationSet $annotations, $filter, ReflectionMethod $getterMethod = null, ReflectionMethod $setterMethod = null)
     {
         /** @var Type $typeAnnotation */
         $typeAnnotation = $annotations->getAnnotation(Type::class, $filter);
@@ -47,13 +47,9 @@ final class PhpTypeFactory
 
         if (null !== $setterMethod && [] !== $setterMethod->getParameters()) {
             $parameter = $setterMethod->getParameters()[0];
-            if (null !== $parameter->getType()) {
-                return new DefaultPhpType((string) $parameter->getType());
+            if (null !== $parameter->getClass()) {
+                return new DefaultPhpType((string) $parameter->getClass()->getName());
             }
-        }
-
-        if (null !== $getterMethod && null !== $getterMethod->getReturnType()) {
-            return new DefaultPhpType((string) $getterMethod->getReturnType());
         }
 
         if (null !== $setterMethod && [] !== $setterMethod->getParameters()) {

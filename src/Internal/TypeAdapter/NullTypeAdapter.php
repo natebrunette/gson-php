@@ -23,7 +23,7 @@ final class NullTypeAdapter extends TypeAdapter
      * @param JsonReadable $reader
      * @return void|null
      */
-    public function read(JsonReadable $reader): void
+    public function read(JsonReadable $reader)
     {
         $reader->nextNull();
     }
@@ -35,7 +35,7 @@ final class NullTypeAdapter extends TypeAdapter
      * @param mixed $value
      * @return void
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         $writer->writeNull();
     }

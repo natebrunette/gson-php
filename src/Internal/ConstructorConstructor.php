@@ -6,12 +6,12 @@
 
 namespace Tebru\Gson\Internal;
 
+use ReflectionClass;
 use Tebru\Gson\InstanceCreator;
 use Tebru\Gson\Internal\ObjectConstructor\CreateFromInstanceCreator;
 use Tebru\Gson\Internal\ObjectConstructor\CreateFromReflectionClass;
 use Tebru\Gson\Internal\ObjectConstructor\CreateWithoutArguments;
 use Tebru\Gson\PhpType;
-use Throwable;
 
 /**
  * Class ConstructorConstructor
@@ -48,7 +48,7 @@ final class ConstructorConstructor
      * @param PhpType $type
      * @return ObjectConstructor
      */
-    public function get(PhpType $type): ObjectConstructor
+    public function get(PhpType $type)
     {
         $class = $type->getType();
         foreach ($this->instanceCreators as $instanceCreatorClass => $creator) {
@@ -57,13 +57,14 @@ final class ConstructorConstructor
             }
         }
 
-        try {
-            // attempt to instantiate a new class without any arguments
-            new $class();
-
-            return new CreateWithoutArguments($class);
-        } catch (Throwable $throwable) {
+        $reflectionClass = new ReflectionClass($class);
+        if (
+            !$reflectionClass->isInstantiable()
+            || (null !== $reflectionClass->getConstructor() && $reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0))
+        {
             return new CreateFromReflectionClass($class);
         }
+
+        return new CreateWithoutArguments($class);
     }
 }

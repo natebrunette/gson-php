@@ -22,14 +22,14 @@ interface ClassMetadata
      *
      * @return string
      */
-    public function getName(): string;
+    public function getName();
 
     /**
      * Get all class annotations
      *
      * @return AnnotationSet
      */
-    public function getAnnotations(): AnnotationSet;
+    public function getAnnotations();
 
     /**
      * Get a specific annotation by class name, returns null if the annotation
@@ -38,5 +38,5 @@ interface ClassMetadata
      * @param string $annotationClass
      * @return null|object
      */
-    public function getAnnotation(string $annotationClass);
+    public function getAnnotation($annotationClass);
 }

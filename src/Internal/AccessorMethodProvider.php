@@ -46,7 +46,7 @@ final class AccessorMethodProvider
      * @param AnnotationSet $annotations
      * @return null|ReflectionMethod
      */
-    public function getterMethod(ReflectionClass $reflectionClass, ReflectionProperty $reflectionProperty, AnnotationSet $annotations): ?ReflectionMethod
+    public function getterMethod(ReflectionClass $reflectionClass, ReflectionProperty $reflectionProperty, AnnotationSet $annotations)
     {
         /** @var Accessor $accessorAnnotation */
         $accessorAnnotation = $annotations->getAnnotation(Accessor::class, AnnotationSet::TYPE_PROPERTY);
@@ -66,7 +66,7 @@ final class AccessorMethodProvider
      * @param AnnotationSet $annotations
      * @return null|ReflectionMethod
      */
-    public function setterMethod(ReflectionClass $reflectionClass, ReflectionProperty $reflectionProperty, AnnotationSet $annotations): ?ReflectionMethod
+    public function setterMethod(ReflectionClass $reflectionClass, ReflectionProperty $reflectionProperty, AnnotationSet $annotations)
     {
         /** @var Accessor $accessorAnnotation */
         $accessorAnnotation = $annotations->getAnnotation(Accessor::class, AnnotationSet::TYPE_PROPERTY);
@@ -85,7 +85,7 @@ final class AccessorMethodProvider
      * @param array $accessors
      * @return null|ReflectionMethod
      */
-    private function reflectionClassMethod(ReflectionClass $reflectionClass, array $accessors): ?ReflectionMethod
+    private function reflectionClassMethod(ReflectionClass $reflectionClass, array $accessors)
     {
         foreach ($accessors as $method) {
             if (!$reflectionClass->hasMethod($method)) {

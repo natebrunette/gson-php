@@ -61,8 +61,8 @@ final class ExcluderTypeAdapter extends TypeAdapter
     public function __construct(
         PhpType $type,
         TypeAdapterProvider $typeAdapterProvider,
-        bool $skipSerialize,
-        bool $skipDeserialize,
+        $skipSerialize,
+        $skipDeserialize,
         TypeAdapterFactory $skip
     ) {
         $this->type = $type;
@@ -100,7 +100,7 @@ final class ExcluderTypeAdapter extends TypeAdapter
      * @return void
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if ($this->skipSerialize) {
             $writer->writeNull();

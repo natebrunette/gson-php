@@ -57,7 +57,7 @@ final class ArrayTypeAdapter extends TypeAdapter
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      * @throws \LogicException If the wrong number of generics exist
      */
-    public function read(JsonReadable $reader): ?array
+    public function read(JsonReadable $reader)
     {
         if ($reader->peek() === JsonToken::NULL) {
             return $reader->nextNull();
@@ -85,7 +85,7 @@ final class ArrayTypeAdapter extends TypeAdapter
                             // If there is a nested object, continue deserializing to an array,
                             // otherwise guess the type using the wildcard
                             $type = $reader->peek() === JsonToken::BEGIN_OBJECT
-                                ? new DefaultPhpType(TypeToken::ARRAY)
+                                ? new DefaultPhpType(TypeToken::TYPE_ARRAY)
                                 : new DefaultPhpType(TypeToken::WILDCARD);
 
                             $adapter = $this->typeAdapterProvider->getAdapter($type);
@@ -160,7 +160,7 @@ final class ArrayTypeAdapter extends TypeAdapter
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      * @throws \LogicException If the wrong number of generics exist
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if (null === $value) {
             $writer->writeNull();
@@ -228,7 +228,7 @@ final class ArrayTypeAdapter extends TypeAdapter
      * @param int $numberOfGenerics
      * @return bool
      */
-    private function isArrayObject(array $array, int $numberOfGenerics): bool
+    private function isArrayObject(array $array, $numberOfGenerics)
     {
         if (2 === $numberOfGenerics) {
             return true;

@@ -33,7 +33,7 @@ final class ReflectionPropertySet implements IteratorAggregate
      * @param ReflectionProperty $element
      * @return bool
      */
-    public function add(ReflectionProperty $element): bool
+    public function add(ReflectionProperty $element)
     {
         $key = $element->getName();
         if (isset($this->elements[$key])) {
@@ -50,7 +50,7 @@ final class ReflectionPropertySet implements IteratorAggregate
      *
      * @return array
      */
-    public function toArray(): array
+    public function toArray()
     {
         return array_values($this->elements);
     }
@@ -60,7 +60,7 @@ final class ReflectionPropertySet implements IteratorAggregate
      *
      * @return ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator()
     {
         return new ArrayIterator($this->toArray());
     }

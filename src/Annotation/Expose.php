@@ -55,7 +55,7 @@ class Expose
      * @param bool $serialize
      * @return bool
      */
-    public function shouldExpose(bool $serialize): bool
+    public function shouldExpose($serialize)
     {
         return $serialize ? $this->serialize : $this->deserialize;
     }

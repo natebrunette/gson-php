@@ -34,7 +34,7 @@ class Integer1SerializerDeserializer implements JsonDeserializer, JsonSerializer
      * @param JsonDeserializationContext $context
      * @return mixed
      */
-    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context): GsonMock
+    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context)
     {
         $json = $jsonElement->asJsonObject();
 
@@ -52,7 +52,7 @@ class Integer1SerializerDeserializer implements JsonDeserializer, JsonSerializer
         $mock->setSerializedname($json->getAsString('serialized_name'));
 
         $type = $json->getAsArray('type');
-        $type = array_map(function (int $value) { return $value + 1; }, $type);
+        $type = array_map(function ($value) { return $value + 1; }, $type);
         $mock->setType($type);
 
         $mock->setJsonAdapter(new GsonObjectMock($json->getAsString('json_adapter')));
@@ -73,7 +73,7 @@ class Integer1SerializerDeserializer implements JsonDeserializer, JsonSerializer
      * @param JsonSerializationContext $context
      * @return JsonElement
      */
-    public function serialize($object, PhpType $type, JsonSerializationContext $context): JsonElement
+    public function serialize($object, PhpType $type, JsonSerializationContext $context)
     {
         $jsonObject = new JsonObject();
         $jsonObject->addInteger('integer', $object->getInteger() + 1);

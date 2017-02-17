@@ -29,7 +29,7 @@ class MockSerializer implements JsonSerializer
      * @param JsonSerializationContext $context
      * @return JsonElement
      */
-    public function serialize($object, PhpType $type, JsonSerializationContext $context): JsonElement
+    public function serialize($object, PhpType $type, JsonSerializationContext $context)
     {
         $jsonUser = new JsonObject();
         $jsonUser->addInteger('id', $object->getId());

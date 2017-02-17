@@ -28,7 +28,7 @@ class MockDeserializer implements JsonDeserializer
      * @param JsonDeserializationContext $context
      * @return UserMock
      */
-    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context): UserMock
+    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context)
     {
         /** @var JsonObject $jsonUser */
         $jsonUser = $jsonElement;

@@ -68,7 +68,7 @@ final class Excluder
      * @param string $version
      * @return Excluder
      */
-    public function setVersion(?string $version): Excluder
+    public function setVersion($version)
     {
         $this->version = $version;
 
@@ -81,7 +81,7 @@ final class Excluder
      * @param int $modifiers
      * @return Excluder
      */
-    public function setExcludedModifiers(int $modifiers): Excluder
+    public function setExcludedModifiers($modifiers)
     {
         $this->excludedModifiers = $modifiers;
 
@@ -94,7 +94,7 @@ final class Excluder
      * @param bool $requireExpose
      * @return Excluder
      */
-    public function setRequireExpose(bool $requireExpose): Excluder
+    public function setRequireExpose($requireExpose)
     {
         $this->requireExpose = $requireExpose;
 
@@ -108,7 +108,7 @@ final class Excluder
      * @param bool $serialization
      * @param bool $deserialization
      */
-    public function addExclusionStrategy(ExclusionStrategy $strategy, bool $serialization, bool $deserialization)
+    public function addExclusionStrategy(ExclusionStrategy $strategy, $serialization, $deserialization)
     {
         if ($serialization) {
             $this->serializationStrategies[] = $strategy;
@@ -126,7 +126,7 @@ final class Excluder
      * @param bool $serialize
      * @return bool
      */
-    public function excludeClass(ClassMetadata $classMetadata, bool $serialize): bool
+    public function excludeClass(ClassMetadata $classMetadata, $serialize)
     {
         return $this->excludeByAnnotation($classMetadata->getAnnotations(), $serialize, AnnotationSet::TYPE_CLASS);
     }
@@ -136,7 +136,7 @@ final class Excluder
      * @param bool $serialize
      * @return bool
      */
-    public function excludeClassByStrategy(ClassMetadata $classMetadata, bool $serialize): bool
+    public function excludeClassByStrategy(ClassMetadata $classMetadata, $serialize)
     {
         $strategies = $serialize ? $this->serializationStrategies : $this->deserializationStrategies;
         foreach ($strategies as $exclusionStrategy) {
@@ -155,7 +155,7 @@ final class Excluder
      * @param bool $serialize
      * @return bool
      */
-    public function excludeProperty(PropertyMetadata $propertyMetadata, bool $serialize): bool
+    public function excludeProperty(PropertyMetadata $propertyMetadata, $serialize)
     {
         // exclude the property if the property modifiers are found in the excluded modifiers
         if (0 !== ($this->excludedModifiers & $propertyMetadata->getModifiers())) {
@@ -176,7 +176,7 @@ final class Excluder
      * @param bool $serialize
      * @return bool
      */
-    public function excludePropertyByStrategy(PropertyMetadata $property, bool $serialize): bool
+    public function excludePropertyByStrategy(PropertyMetadata $property, $serialize)
     {
         $strategies = $serialize ? $this->serializationStrategies : $this->deserializationStrategies;
         foreach ($strategies as $exclusionStrategy) {
@@ -200,7 +200,7 @@ final class Excluder
      * @param int $filter
      * @return bool
      */
-    private function excludeByAnnotation(AnnotationSet $annotations, bool $serialize, int $filter): bool
+    private function excludeByAnnotation(AnnotationSet $annotations, $serialize, $filter)
     {
         if (!$this->validVersion($annotations, $filter)) {
             return true;
@@ -231,7 +231,7 @@ final class Excluder
      * @param int $filter
      * @return bool
      */
-    private function validVersion(AnnotationSet $annotations, int $filter): bool
+    private function validVersion(AnnotationSet $annotations, $filter)
     {
         return !$this->shouldSkipSince($annotations, $filter) && !$this->shouldSkipUntil($annotations, $filter);
     }
@@ -243,7 +243,7 @@ final class Excluder
      * @param int $filter
      * @return bool
      */
-    private function shouldSkipSince(AnnotationSet $annotations, int $filter): bool
+    private function shouldSkipSince(AnnotationSet $annotations, $filter)
     {
         /** @var Since $sinceAnnotation */
         $sinceAnnotation = $annotations->getAnnotation(Since::class, $filter);
@@ -261,7 +261,7 @@ final class Excluder
      * @param int $filter
      * @return bool
      */
-    private function shouldSkipUntil(AnnotationSet $annotations, int $filter): bool
+    private function shouldSkipUntil(AnnotationSet $annotations, $filter)
     {
         /** @var Until $sinceAnnotation */
         $untilAnnotation = $annotations->getAnnotation(Until::class, $filter);

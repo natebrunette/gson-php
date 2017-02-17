@@ -31,7 +31,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      *
      * @param string $value
      */
-    public function addString(?string $value): void
+    public function addString($value)
     {
         $this->addJsonElement(JsonPrimitive::create($value));
     }
@@ -41,7 +41,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      *
      * @param int $value
      */
-    public function addInteger(?int $value): void
+    public function addInteger($value)
     {
         $this->addJsonElement(JsonPrimitive::create($value));
     }
@@ -51,9 +51,9 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      *
      * @param float $value
      */
-    public function addFloat(?float $value): void
+    public function addFloat($value)
     {
-        $this->addJsonElement(JsonPrimitive::create($value));
+        $this->addJsonElement(JsonPrimitive::create((float)$value));
     }
 
     /**
@@ -61,7 +61,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      *
      * @param bool $value
      */
-    public function addBoolean(?bool $value): void
+    public function addBoolean($value)
     {
         $this->addJsonElement(JsonPrimitive::create($value));
     }
@@ -81,7 +81,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      *
      * @param JsonArray $jsonArray
      */
-    public function addAll(JsonArray $jsonArray): void
+    public function addAll(JsonArray $jsonArray)
     {
         foreach ($jsonArray as $jsonElement) {
             $this->addJsonElement($jsonElement);
@@ -93,7 +93,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      *
      * @return JsonArray
      */
-    public function asJsonArray(): JsonArray
+    public function asJsonArray()
     {
         return $this;
     }
@@ -104,7 +104,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      * @param JsonElement $jsonElement
      * @return bool
      */
-    public function contains(JsonElement $jsonElement): bool
+    public function contains(JsonElement $jsonElement)
     {
         foreach ($this->values as $element) {
             if ($element === $jsonElement) {
@@ -121,7 +121,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      * @param int $index
      * @return bool
      */
-    public function has(int $index): bool
+    public function has($index)
     {
         return isset($this->values[$index]);
     }
@@ -132,7 +132,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      * @param int $index
      * @return JsonElement
      */
-    public function get(int $index): JsonElement
+    public function get($index)
     {
         return $this->values[$index];
     }
@@ -143,7 +143,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      * @param int $index
      * @param JsonElement $jsonElement
      */
-    public function set(int $index, JsonElement $jsonElement): void
+    public function set($index, JsonElement $jsonElement)
     {
         $this->values[$index] = $jsonElement;
     }
@@ -154,7 +154,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      * @param JsonElement $jsonElement
      * @return bool
      */
-    public function remove(JsonElement $jsonElement): bool
+    public function remove(JsonElement $jsonElement)
     {
         foreach ($this->values as $index => $element) {
             if ($element === $jsonElement) {
@@ -186,7 +186,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      *
      * @return ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator()
     {
         return new ArrayIterator($this->values);
     }
@@ -196,7 +196,7 @@ class JsonArray extends JsonElement implements IteratorAggregate, Countable
      *
      * @return int
      */
-    public function count(): int
+    public function count()
     {
         return count($this->values);
     }

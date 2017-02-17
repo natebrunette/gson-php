@@ -22,7 +22,7 @@ class TwoPropertyNamingStrategy implements PropertyNamingStrategy
      * @param string $propertyName
      * @return string
      */
-    public function translateName(string $propertyName): string
+    public function translateName($propertyName)
     {
         return $propertyName.'2';
     }

@@ -141,7 +141,7 @@ final class ReflectionTypeAdapter extends TypeAdapter
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if (null === $value) {
             $writer->writeNull();

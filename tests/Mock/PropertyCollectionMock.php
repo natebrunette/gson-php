@@ -17,6 +17,7 @@ class PropertyCollectionMock
 {
     /**
      * @Gson\Accessor(get="getChanged", set="setChanged")
+     * @Gson\Type("bool")
      */
     private $changedAccessors;
 
@@ -35,12 +36,12 @@ class PropertyCollectionMock
      */
     private $type;
 
-    public function getChanged(): ?bool
+    public function getChanged()
     {
         return $this->changedAccessors;
     }
 
-    public function setChanged(bool $changed)
+    public function setChanged($changed)
     {
         $this->changedAccessors = $changed;
     }
@@ -48,8 +49,9 @@ class PropertyCollectionMock
     /**
      * @Gson\VirtualProperty()
      * @Gson\SerializedName("new_virtual_property")
+     * @Gson\Type("string")
      */
-    public function virtualProperty(): string
+    public function virtualProperty()
     {
         return 'foo'.'bar';
     }
@@ -58,7 +60,7 @@ class PropertyCollectionMock
      * @Gson\VirtualProperty()
      * @Gson\Exclude
      */
-    public function virtualProperty2(): string
+    public function virtualProperty2()
     {
         return 'foo'.'bar';
     }

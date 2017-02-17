@@ -39,7 +39,7 @@ class FooTypeAdapter extends TypeAdapter
      * @param mixed $value
      * @return void
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
     }
 }

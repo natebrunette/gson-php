@@ -27,5 +27,5 @@ interface JsonDeserializationContext
      * @param string $type
      * @return mixed
      */
-    public function deserialize(JsonElement $jsonElement, string $type);
+    public function deserialize(JsonElement $jsonElement, $type);
 }

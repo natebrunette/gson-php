@@ -36,7 +36,7 @@ class Integer1TypeAdapter extends TypeAdapter
      * @param int $value
      * @return void
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         $writer->writeInteger($value + 1);
     }

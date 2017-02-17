@@ -120,7 +120,7 @@ final class PropertyCollectionFactory
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function create(PhpType $phpType): PropertyCollection
+    public function create(PhpType $phpType)
     {
         $class = $phpType->getType();
 
@@ -231,7 +231,7 @@ final class PropertyCollectionFactory
      * @param bool $serialize
      * @return bool
      */
-    private function excludeProperty(PropertyMetadata $propertyMetadata, bool $serialize): bool
+    private function excludeProperty(PropertyMetadata $propertyMetadata, $serialize)
     {
         $excludeClass = $this->excluder->excludeClass($propertyMetadata->getDeclaringClassMetadata(), $serialize);
         $excludeProperty = $this->excluder->excludeProperty($propertyMetadata, $serialize);

@@ -38,7 +38,7 @@ class TypeAdapterMock extends TypeAdapter implements TypeAdapterFactory, TypeAda
      * @param mixed $value
      * @return void
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         $writer->writeString($value);
     }
@@ -50,7 +50,7 @@ class TypeAdapterMock extends TypeAdapter implements TypeAdapterFactory, TypeAda
      * @param PhpType $type
      * @return bool
      */
-    public function supports(PhpType $type): bool
+    public function supports(PhpType $type)
     {
         return 'string' === (string) $type;
     }
@@ -63,7 +63,7 @@ class TypeAdapterMock extends TypeAdapter implements TypeAdapterFactory, TypeAda
      * @param TypeAdapterProvider $typeAdapterProvider
      * @return TypeAdapter
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider): TypeAdapter
+    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
     {
         return new self();
     }

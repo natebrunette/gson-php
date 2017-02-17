@@ -27,7 +27,7 @@ final class MetadataPropertyCollection
      *
      * @param PropertyMetadata $property
      */
-    public function add(PropertyMetadata $property): void
+    public function add(PropertyMetadata $property)
     {
         $this->properties[$property->getName()] = $property;
     }
@@ -39,7 +39,7 @@ final class MetadataPropertyCollection
      * @param string $name
      * @return PropertyMetadata
      */
-    public function get(string $name): PropertyMetadata
+    public function get($name)
     {
         return $this->properties[$name];
     }

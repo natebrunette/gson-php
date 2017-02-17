@@ -37,7 +37,7 @@ final class DateTimeTypeAdapter extends TypeAdapter
      * @param PhpType $type
      * @param string $format
      */
-    public function __construct(PhpType $type, string $format)
+    public function __construct(PhpType $type, $format)
     {
         $this->type = $type;
         $this->format = $format;
@@ -49,15 +49,15 @@ final class DateTimeTypeAdapter extends TypeAdapter
      * @param JsonReadable $reader
      * @return DateTime|null
      */
-    public function read(JsonReadable $reader): ?DateTime
+    public function read(JsonReadable $reader)
     {
         if ($reader->peek() === JsonToken::NULL) {
             return $reader->nextNull();
         }
 
         $formattedDateTime = $reader->nextString();
-        $format = $this->type->getOptions()['format'] ?? null;
-        $timezone = $this->type->getOptions()['timezone'] ?? null;
+        $format = isset($this->type->getOptions()['format']) ? $this->type->getOptions()['format'] : null;
+        $timezone = isset($this->type->getOptions()['timezone'])? $this->type->getOptions()['timezone'] : null;
 
         if (null === $format) {
             $format = $this->format;
@@ -70,7 +70,11 @@ final class DateTimeTypeAdapter extends TypeAdapter
         /** @var DateTime $class */
         $class = $this->type->getType();
 
-        return $class::createFromFormat($format, $formattedDateTime, $timezone);
+        if (null === $timezone) {
+            return $class::createFromFormat($format, $formattedDateTime);
+        } else {
+            return $class::createFromFormat($format, $formattedDateTime, $timezone);
+        }
     }
 
     /**
@@ -80,7 +84,7 @@ final class DateTimeTypeAdapter extends TypeAdapter
      * @param DateTime $value
      * @return void
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if (null === $value) {
             $writer->writeNull();
@@ -88,7 +92,7 @@ final class DateTimeTypeAdapter extends TypeAdapter
             return;
         }
 
-        $format = $this->type->getOptions()['format'] ?? null;
+        $format = isset($this->type->getOptions()['format']) ? $this->type->getOptions()['format'] : null;
 
         if (null === $format) {
             $format = $this->format;

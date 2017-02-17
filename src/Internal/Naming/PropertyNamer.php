@@ -42,7 +42,7 @@ final class PropertyNamer
      * @param int $filter
      * @return string
      */
-    public function serializedName(string $propertyName, AnnotationSet $annotations, int $filter): string
+    public function serializedName($propertyName, AnnotationSet $annotations, $filter)
     {
         $serializedName = $annotations->getAnnotation(SerializedName::class, $filter);
         if (null !== $serializedName) {

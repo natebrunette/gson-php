@@ -38,7 +38,7 @@ final class DefaultClassMetadata implements ClassMetadata
      * @param string $name
      * @param AnnotationSet $annotations
      */
-    public function __construct(string $name, AnnotationSet $annotations)
+    public function __construct($name, AnnotationSet $annotations)
     {
         $this->name = $name;
         $this->annotations = $annotations;
@@ -49,7 +49,7 @@ final class DefaultClassMetadata implements ClassMetadata
      *
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -59,7 +59,7 @@ final class DefaultClassMetadata implements ClassMetadata
      *
      * @return AnnotationSet
      */
-    public function getAnnotations(): AnnotationSet
+    public function getAnnotations()
     {
         return $this->annotations;
     }
@@ -71,7 +71,7 @@ final class DefaultClassMetadata implements ClassMetadata
      * @param string $annotationClass
      * @return null|object
      */
-    public function getAnnotation(string $annotationClass)
+    public function getAnnotation($annotationClass)
     {
         return $this->annotations->getAnnotation($annotationClass, AnnotationSet::TYPE_CLASS);
     }

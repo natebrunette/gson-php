@@ -93,7 +93,7 @@ final class DefaultPhpType implements PhpType
      * @param array $options
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function __construct(string $type, array $options = [])
+    public function __construct($type, array $options = [])
     {
         $this->options = $options;
         $this->fullType = (string) str_replace(' ', '', $type);
@@ -108,7 +108,7 @@ final class DefaultPhpType implements PhpType
      * @return PhpType
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public static function createFromVariable($variable): PhpType
+    public static function createFromVariable($variable)
     {
         return is_object($variable) ? new self(get_class($variable)) : new self(gettype($variable));
     }
@@ -121,7 +121,7 @@ final class DefaultPhpType implements PhpType
      * @return void
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    private function parseType(string $type): void
+    private function parseType($type)
     {
         if (false === strpos($type, '<')) {
             $this->setType($type);
@@ -181,7 +181,7 @@ final class DefaultPhpType implements PhpType
      * @param string $type
      * @return void
      */
-    private function setType(string $type): void
+    private function setType($type)
     {
         $this->type = TypeToken::normalizeType($type);
 
@@ -201,7 +201,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return array
      */
-    public function getGenerics(): array
+    public function getGenerics()
     {
         return $this->genericTypes;
     }
@@ -211,7 +211,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return string
      */
-    public function getType(): ?string
+    public function getType()
     {
         return $this->isObject() ? $this->class : $this->fullType;
     }
@@ -222,7 +222,7 @@ final class DefaultPhpType implements PhpType
      * @param string $type
      * @return bool
      */
-    public function isA(string $type): bool
+    public function isA($type)
     {
         $currentType = $this->getType();
         if ($currentType === $type) {
@@ -245,7 +245,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isString(): bool
+    public function isString()
     {
         return $this->type === TypeToken::STRING;
     }
@@ -255,7 +255,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isInteger(): bool
+    public function isInteger()
     {
         return $this->type === TypeToken::INTEGER;
     }
@@ -265,7 +265,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isFloat(): bool
+    public function isFloat()
     {
         return $this->type === TypeToken::FLOAT;
     }
@@ -275,7 +275,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isBoolean(): bool
+    public function isBoolean()
     {
         return $this->type === TypeToken::BOOLEAN;
     }
@@ -285,9 +285,9 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isArray(): bool
+    public function isArray()
     {
-        return $this->type === TypeToken::ARRAY;
+        return $this->type === TypeToken::TYPE_ARRAY;
     }
 
     /**
@@ -295,7 +295,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isObject(): bool
+    public function isObject()
     {
         return $this->type === TypeToken::OBJECT;
     }
@@ -305,7 +305,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isNull(): bool
+    public function isNull()
     {
         return $this->type === TypeToken::NULL;
     }
@@ -315,7 +315,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isResource(): bool
+    public function isResource()
     {
         return $this->type === TypeToken::RESOURCE;
     }
@@ -325,7 +325,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return bool
      */
-    public function isWildcard(): bool
+    public function isWildcard()
     {
         return $this->type === TypeToken::WILDCARD;
     }
@@ -335,7 +335,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return array
      */
-    public function getOptions(): array
+    public function getOptions()
     {
         return $this->options;
     }
@@ -346,7 +346,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return string
      */
-    public function getUniqueKey(): string
+    public function getUniqueKey()
     {
         return [] === $this->options
             ? $this->fullType
@@ -358,7 +358,7 @@ final class DefaultPhpType implements PhpType
      *
      * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return $this->fullType;
     }

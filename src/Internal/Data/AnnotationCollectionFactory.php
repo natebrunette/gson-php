@@ -53,7 +53,7 @@ final class AnnotationCollectionFactory
      * @return AnnotationSet
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function createPropertyAnnotations(string $className, string $propertyName): AnnotationSet
+    public function createPropertyAnnotations($className, $propertyName)
     {
         $key = $className.':'.$propertyName;
         if ($this->cache->contains($key)) {
@@ -97,7 +97,7 @@ final class AnnotationCollectionFactory
      * @return AnnotationSet
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function createClassAnnotations(string $className): AnnotationSet
+    public function createClassAnnotations($className)
     {
         if ($this->cache->contains($className)) {
             return $this->cache->fetch($className);
@@ -131,7 +131,7 @@ final class AnnotationCollectionFactory
      * @return AnnotationSet
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function createMethodAnnotations(string $className, string $methodName): AnnotationSet
+    public function createMethodAnnotations($className, $methodName)
     {
         $key = $className.':'.$methodName;
         if ($this->cache->contains($key)) {

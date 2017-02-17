@@ -31,7 +31,7 @@ class GsonObjectMockSerializerMock implements JsonSerializer, JsonDeserializer
      * @param JsonDeserializationContext $context
      * @return mixed
      */
-    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context): GsonObjectMock
+    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context)
     {
         if ($jsonElement->isJsonObject()) {
             return new GsonObjectMock($jsonElement->asJsonObject()->get('foo')->getValue());
@@ -50,7 +50,7 @@ class GsonObjectMockSerializerMock implements JsonSerializer, JsonDeserializer
      * @param JsonSerializationContext $context
      * @return JsonElement
      */
-    public function serialize($object, PhpType $type, JsonSerializationContext $context): JsonElement
+    public function serialize($object, PhpType $type, JsonSerializationContext $context)
     {
         return JsonPrimitive::create($object->getFoo());
     }

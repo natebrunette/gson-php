@@ -22,7 +22,7 @@ final class SetByNull implements SetterStrategy
      * @param mixed $value
      * @return void
      */
-    public function set($object, $value): void
+    public function set($object, $value)
     {
         // noop
     }

@@ -29,7 +29,7 @@ final class GetByMethod implements GetterStrategy
      *
      * @param string $methodName
      */
-    public function __construct(string $methodName)
+    public function __construct($methodName)
     {
         $this->methodName = $methodName;
     }

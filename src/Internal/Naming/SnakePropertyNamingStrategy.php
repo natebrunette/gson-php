@@ -24,7 +24,7 @@ final class SnakePropertyNamingStrategy implements PropertyNamingStrategy
      * @param string $propertyName
      * @return string
      */
-    public function translateName(string $propertyName): string
+    public function translateName($propertyName)
     {
         $snakeCase = [];
         foreach (str_split($propertyName) as $character) {

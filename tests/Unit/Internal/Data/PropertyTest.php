@@ -83,7 +83,7 @@ class PropertyTest extends PHPUnit_Framework_TestCase
 
     public function testSetAndGet()
     {
-        $mock = new class { public $foo; };
+        $mock = new PropertyTestMock();
         $realName = 'foo';
         $serializedName = 'foo_bar';
         $type = new DefaultPhpType(stdClass::class);
@@ -197,7 +197,7 @@ class PropertyTest extends PHPUnit_Framework_TestCase
 
     public function testSetNull()
     {
-        $mock = new class { public $foo; };
+        $mock = new PropertyTestMock();
         $realName = 'foo';
         $serializedName = 'foo_bar';
         $type = new DefaultPhpType(stdClass::class);
@@ -216,4 +216,9 @@ class PropertyTest extends PHPUnit_Framework_TestCase
         $property->set($mock, null);
         self::assertNull($property->get($mock));
     }
+}
+
+class PropertyTestMock
+{
+    public $foo;
 }

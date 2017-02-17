@@ -25,7 +25,7 @@ final class SetByMethod implements SetterStrategy
      *
      * @param string $methodName
      */
-    public function __construct(string $methodName)
+    public function __construct($methodName)
     {
         $this->methodName = $methodName;
     }
@@ -37,7 +37,7 @@ final class SetByMethod implements SetterStrategy
      * @param mixed $value
      * @return void
      */
-    public function set($object, $value): void
+    public function set($object, $value)
     {
         $object->{$this->methodName}($value);
     }

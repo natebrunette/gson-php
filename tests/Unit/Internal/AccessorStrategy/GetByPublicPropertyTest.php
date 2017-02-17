@@ -6,10 +6,10 @@
 
 namespace Tebru\Gson\Test\Unit\Internal\AccessorStrategy;
 
+use Exception;
 use PHPUnit_Framework_TestCase;
 use Tebru\Gson\Internal\AccessorStrategy\GetByPublicProperty;
 use Tebru\Gson\Test\Mock\Unit\Internal\AccessorStrategy\GetByPublicPropertyTest\GetByPublicPropertyTestMock;
-use Throwable;
 
 /**
  * Class GetByPublicPropertyTest
@@ -34,7 +34,7 @@ class GetByPublicPropertyTest extends PHPUnit_Framework_TestCase
             $strategy->get(new GetByPublicPropertyTestMock());
 
             self::assertTrue(false);
-        } catch (Throwable $throwable) {
+        } catch (Exception $exception) {
             self::assertTrue(true);
         }
     }

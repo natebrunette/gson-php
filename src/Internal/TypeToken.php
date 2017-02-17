@@ -17,7 +17,7 @@ final class TypeToken
     const INTEGER = 'integer';
     const FLOAT = 'float';
     const BOOLEAN = 'boolean';
-    const ARRAY = 'array';
+    const TYPE_ARRAY = 'array';
     const OBJECT = 'object';
     const NULL = 'null';
     const RESOURCE = 'resource';
@@ -32,7 +32,7 @@ final class TypeToken
      * @param string $type
      * @return string
      */
-    public static function normalizeType(string $type): string
+    public static function normalizeType($type)
     {
         switch ($type) {
             case 'string':
@@ -47,7 +47,7 @@ final class TypeToken
             case 'boolean':
                 return self::BOOLEAN;
             case 'array':
-                return self::ARRAY;
+                return self::TYPE_ARRAY;
             case 'null':
             case 'NULL':
                 return self::NULL;

@@ -51,7 +51,7 @@ class Gson
     public function __construct(
         TypeAdapterProvider $typeAdapterProvider,
         PropertyCollectionFactory $propertyCollectionFactory,
-        bool $serializeNull
+        $serializeNull
     ) {
         $this->typeAdapterProvider = $typeAdapterProvider;
         $this->propertyCollectionFactory = $propertyCollectionFactory;
@@ -63,7 +63,7 @@ class Gson
      *
      * @return GsonBuilder
      */
-    public static function builder(): GsonBuilder
+    public static function builder()
     {
         return new GsonBuilder();
     }
@@ -76,7 +76,7 @@ class Gson
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      */
-    public function toJson($object): string
+    public function toJson($object)
     {
         $type = DefaultPhpType::createFromVariable($object);
         $typeAdapter = $this->typeAdapterProvider->getAdapter($type);
@@ -95,7 +95,7 @@ class Gson
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      */
-    public function fromJson(string $json, $type)
+    public function fromJson($json, $type)
     {
         $phpType = is_object($type) ? new DefaultPhpType(get_class($type)) : new DefaultPhpType($type);
         $typeAdapter = $this->typeAdapterProvider->getAdapter($phpType);
@@ -129,7 +129,7 @@ class Gson
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      */
-    public function toJsonElement($object): JsonElement
+    public function toJsonElement($object)
     {
         return $this->fromJson($this->toJson($object), JsonElement::class);
     }

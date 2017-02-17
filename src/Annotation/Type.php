@@ -68,7 +68,7 @@ class Type
      * @return PhpType
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function getType(): PhpType
+    public function getType()
     {
         return new DefaultPhpType($this->value, $this->options);
     }

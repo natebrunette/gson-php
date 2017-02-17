@@ -109,7 +109,7 @@ final class CustomWrappedTypeAdapter extends TypeAdapter
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      * @throws \Tebru\Gson\Exception\UnsupportedMethodException
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if (null === $this->serializer) {
             $adapter = $this->typeAdapterProvider->getAdapter($this->type, $this->skip);

@@ -24,7 +24,7 @@ final class FloatTypeAdapter extends TypeAdapter
      * @param JsonReadable $reader
      * @return float|null
      */
-    public function read(JsonReadable $reader): ?float
+    public function read(JsonReadable $reader)
     {
         if ($reader->peek() === JsonToken::NULL) {
             return $reader->nextNull();
@@ -40,7 +40,7 @@ final class FloatTypeAdapter extends TypeAdapter
      * @param float $value
      * @return void
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if (null === $value) {
             $writer->writeNull();

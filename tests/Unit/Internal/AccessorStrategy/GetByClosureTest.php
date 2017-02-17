@@ -7,10 +7,10 @@
 namespace Tebru\Gson\Test\Unit\Internal\AccessorStrategy;
 
 use Closure;
+use Exception;
 use PHPUnit_Framework_TestCase;
 use Tebru\Gson\Internal\AccessorStrategy\GetByClosure;
 use Tebru\Gson\Test\Mock\Unit\Internal\AccessorStrategy\GetByClosureTest\GetByClosureTestMock;
-use Throwable;
 
 /**
  * Class GetByClosureTest
@@ -35,7 +35,7 @@ class GetByClosureTest extends PHPUnit_Framework_TestCase
             $strategy->get(new GetByClosureTestMock());
 
             self::assertTrue(false);
-        } catch (Throwable $throwable) {
+        } catch (Exception $exception) {
             self::assertTrue(true);
         }
     }

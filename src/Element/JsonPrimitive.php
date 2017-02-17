@@ -52,7 +52,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return bool
      */
-    public function isString(): bool
+    public function isString()
     {
         return is_string($this->value);
     }
@@ -62,7 +62,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return bool
      */
-    public function isInteger(): bool
+    public function isInteger()
     {
         return is_int($this->value);
     }
@@ -72,7 +72,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return bool
      */
-    public function isFloat(): bool
+    public function isFloat()
     {
         return is_float($this->value);
     }
@@ -82,7 +82,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return bool
      */
-    public function isNumber(): bool
+    public function isNumber()
     {
         return $this->isInteger() || $this->isFloat();
     }
@@ -92,7 +92,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return bool
      */
-    public function isBoolean(): bool
+    public function isBoolean()
     {
         return is_bool($this->value);
     }
@@ -102,7 +102,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return string
      */
-    public function asString(): string
+    public function asString()
     {
         return (string) $this->value;
     }
@@ -112,7 +112,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return int
      */
-    public function asInteger(): int
+    public function asInteger()
     {
         return (int) $this->value;
     }
@@ -122,7 +122,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return float
      */
-    public function asFloat(): float
+    public function asFloat()
     {
         return (float) $this->value;
     }
@@ -132,7 +132,7 @@ class JsonPrimitive extends JsonElement
      *
      * @return bool
      */
-    public function asBoolean(): bool
+    public function asBoolean()
     {
         return (bool) $this->value;
     }

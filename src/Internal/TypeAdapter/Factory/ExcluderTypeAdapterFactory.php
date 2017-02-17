@@ -51,7 +51,7 @@ final class ExcluderTypeAdapterFactory implements TypeAdapterFactory
      * @return bool
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function supports(PhpType $type): bool
+    public function supports(PhpType $type)
     {
         if (!$type->isObject()) {
             return false;
@@ -78,7 +78,7 @@ final class ExcluderTypeAdapterFactory implements TypeAdapterFactory
      * @return TypeAdapter
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider): TypeAdapter
+    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
     {
         $classMetadata = $this->metadataFactory->createClassMetadata($type->getType());
         $skipSerialize = $this->excluder->excludeClass($classMetadata, true);

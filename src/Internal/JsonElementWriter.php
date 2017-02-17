@@ -63,7 +63,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function beginArray(): JsonWritable
+    public function beginArray()
     {
         if ($this->topIsObjectStart()) {
             throw new BadMethodCallException('Cannot call beginArray() before name() during object serialization');
@@ -83,7 +83,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function endArray(): JsonWritable
+    public function endArray()
     {
         if (!$this->topIsArray()) {
             throw new BadMethodCallException('Cannot call endArray() if not serializing array');
@@ -100,7 +100,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function beginObject(): JsonWritable
+    public function beginObject()
     {
         if ($this->topIsObjectStart()) {
             throw new BadMethodCallException('Cannot call beginObject() before name() during object serialization');
@@ -120,7 +120,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function endObject(): JsonWritable
+    public function endObject()
     {
         if (!$this->topIsObject()) {
             throw new BadMethodCallException('Cannot call endObject() if not serializing object');
@@ -138,7 +138,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function name(string $name): JsonWritable
+    public function name($name)
     {
         if (!$this->topIsObjectStart()) {
             throw new BadMethodCallException('Cannot call name() at this point.  Either name() has already been called or object serialization has not been started');
@@ -156,7 +156,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function writeInteger(int $value): JsonWritable
+    public function writeInteger($value)
     {
         if ($this->topIsObjectStart()) {
             throw new BadMethodCallException('Cannot call writeInteger() before name() during object serialization');
@@ -172,7 +172,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function writeFloat(float $value): JsonWritable
+    public function writeFloat($value)
     {
         if ($this->topIsObjectStart()) {
             throw new BadMethodCallException('Cannot call writeFloat() before name() during object serialization');
@@ -188,7 +188,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function writeString(string $value): JsonWritable
+    public function writeString($value)
     {
         if ($this->topIsObjectStart()) {
             throw new BadMethodCallException('Cannot call writeString() before name() during object serialization');
@@ -204,7 +204,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function writeBoolean(bool $value): JsonWritable
+    public function writeBoolean($value)
     {
         if ($this->topIsObjectStart()) {
             throw new BadMethodCallException('Cannot call writeBoolean() before name() during object serialization');
@@ -221,7 +221,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    public function writeNull(): JsonWritable
+    public function writeNull()
     {
         if ($this->topIsObjectStart()) {
             throw new BadMethodCallException('Cannot call writeNull() before name() during object serialization');
@@ -244,7 +244,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      *
      * @param bool $serializeNull
      */
-    public function setSerializeNull(bool $serializeNull): void
+    public function setSerializeNull($serializeNull)
     {
         $this->serializeNull = $serializeNull;
     }
@@ -268,7 +268,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      *
      * @return JsonElement
      */
-    public function toJsonElement(): JsonElement
+    public function toJsonElement()
     {
         return $this->result;
     }
@@ -278,7 +278,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      *
      * @return int
      */
-    private function last(): int
+    private function last()
     {
         return $this->stackSize - 1;
     }
@@ -290,7 +290,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      * @return JsonWritable
      * @throws \BadMethodCallException
      */
-    private function push(JsonElement $value): JsonWritable
+    private function push(JsonElement $value)
     {
         if (0 === $this->stackSize) {
             if (null !== $this->result) {
@@ -317,7 +317,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
     /**
      * Remove the last element of the stack
      */
-    private function pop(): void
+    private function pop()
     {
         array_splice($this->stack, $this->last(), 1);
         $this->stackSize--;
@@ -328,7 +328,7 @@ final class JsonElementWriter implements JsonWritable, JsonSerializable
      *
      * @return bool
      */
-    private function topIsObjectStart(): bool
+    private function topIsObjectStart()
     {
         if (0 === $this->stackSize) {
             return false;

@@ -49,7 +49,7 @@ final class AnnotationSet
      * @param int $type
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function addAnnotation($annotation, int $type)
+    public function addAnnotation($annotation, $type)
     {
         $class = get_class($annotation);
         switch ($type) {
@@ -86,7 +86,7 @@ final class AnnotationSet
      * @param int $filter
      * @return null|object
      */
-    public function getAnnotation(string $annotationClass, $filter)
+    public function getAnnotation($annotationClass, $filter)
     {
         if (self::TYPE_PROPERTY & $filter && isset($this->propertyAnnotations[$annotationClass])) {
             return $this->propertyAnnotations[$annotationClass];
@@ -110,7 +110,7 @@ final class AnnotationSet
      * @return array
      * @throws \InvalidArgumentException If the type does not exist
      */
-    public function toArray(int $type)
+    public function toArray($type)
     {
         if (self::TYPE_CLASS === $type) {
             return array_values($this->classAnnotations);

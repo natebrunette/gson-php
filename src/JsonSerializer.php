@@ -27,5 +27,5 @@ interface JsonSerializer
      * @param JsonSerializationContext $context
      * @return JsonElement
      */
-    public function serialize($object, PhpType $type, JsonSerializationContext $context): JsonElement;
+    public function serialize($object, PhpType $type, JsonSerializationContext $context);
 }

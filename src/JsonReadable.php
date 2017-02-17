@@ -20,28 +20,28 @@ interface JsonReadable
      *
      * @return void
      */
-    public function beginArray(): void;
+    public function beginArray();
 
     /**
      * Consumes the next token and asserts it's the end of an array
      *
      * @return void
      */
-    public function endArray(): void;
+    public function endArray();
 
     /**
      * Consumes the next token and asserts it's the beginning of a new object
      *
      * @return void
      */
-    public function beginObject(): void;
+    public function beginObject();
 
     /**
      * Consumes the next token and asserts it's the end of an object
      *
      * @return void
      */
-    public function endObject(): void;
+    public function endObject();
 
     /**
      * Returns true if the array or object has another element
@@ -50,35 +50,35 @@ interface JsonReadable
      *
      * @return bool
      */
-    public function hasNext(): bool;
+    public function hasNext();
 
     /**
      * Consumes the value of the next token, asserts it's a boolean and returns it
      *
      * @return bool
      */
-    public function nextBoolean(): bool;
+    public function nextBoolean();
 
     /**
      * Consumes the value of the next token, asserts it's a double and returns it
      *
      * @return double
      */
-    public function nextDouble(): float;
+    public function nextDouble();
 
     /**
      * Consumes the value of the next token, asserts it's an int and returns it
      *
      * @return int
      */
-    public function nextInteger(): int;
+    public function nextInteger();
 
     /**
      * Consumes the value of the next token, asserts it's a string and returns it
      *
      * @return string
      */
-    public function nextString(): string;
+    public function nextString();
 
     /**
      * Consumes the value of the next token and asserts it's null
@@ -92,14 +92,14 @@ interface JsonReadable
      *
      * @return string
      */
-    public function nextName(): string;
+    public function nextName();
 
     /**
      * Returns an enum representing the type of the next token without consuming it
      *
      * @return string
      */
-    public function peek(): string;
+    public function peek();
 
     /**
      * Skip the next value.  If the next value is an object or array, all children will
@@ -107,5 +107,5 @@ interface JsonReadable
      *
      * @return void
      */
-    public function skipValue(): void;
+    public function skipValue();
 }

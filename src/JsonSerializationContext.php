@@ -25,5 +25,5 @@ interface JsonSerializationContext
      * @param mixed $object
      * @return JsonElement
      */
-    public function serialize($object): JsonElement;
+    public function serialize($object);
 }

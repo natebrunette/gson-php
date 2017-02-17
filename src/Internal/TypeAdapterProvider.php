@@ -62,7 +62,7 @@ final class TypeAdapterProvider
      * @param string $type
      * @param TypeAdapter $typeAdapter
      */
-    public function addTypeAdapter(string $type, TypeAdapter $typeAdapter): void
+    public function addTypeAdapter($type, TypeAdapter $typeAdapter)
     {
         $this->typeAdapterCache->save($type, $typeAdapter);
     }
@@ -77,7 +77,7 @@ final class TypeAdapterProvider
      * @return TypeAdapter
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      */
-    public function getAdapter(PhpType $type, TypeAdapterFactory $skip = null): TypeAdapter
+    public function getAdapter(PhpType $type, TypeAdapterFactory $skip = null)
     {
         $key = $type->getUniqueKey();
         $typeAdapter = $this->typeAdapterCache->fetch($key);
@@ -121,7 +121,7 @@ final class TypeAdapterProvider
      * @throws \InvalidArgumentException if an invalid adapter is found
      * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function getAdapterFromAnnotation(PhpType $type, JsonAdapter $jsonAdapterAnnotation): TypeAdapter
+    public function getAdapterFromAnnotation(PhpType $type, JsonAdapter $jsonAdapterAnnotation)
     {
         $object = $this->constructorConstructor->get(new DefaultPhpType($jsonAdapterAnnotation->getClass()))->construct();
 

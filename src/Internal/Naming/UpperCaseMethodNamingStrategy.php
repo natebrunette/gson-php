@@ -22,7 +22,7 @@ final class UpperCaseMethodNamingStrategy implements MethodNamingStrategy
      * @param string $propertyName
      * @return array
      */
-    public function translateToGetter(string $propertyName): array
+    public function translateToGetter($propertyName)
     {
         return [
             'get' . ucfirst($propertyName),
@@ -37,7 +37,7 @@ final class UpperCaseMethodNamingStrategy implements MethodNamingStrategy
      * @param string $propertyName
      * @return array
      */
-    public function translateToSetter(string $propertyName): array
+    public function translateToSetter($propertyName)
     {
         return ['set' . ucfirst($propertyName)];
     }

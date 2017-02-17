@@ -104,14 +104,14 @@ final class Property
      * @param bool $virtual
      */
     public function __construct(
-        string $realName,
-        string $serializedName,
+        $realName,
+        $serializedName,
         PhpType $type,
         GetterStrategy $getterStrategy,
         SetterStrategy $setterStrategy,
         AnnotationSet $annotations,
-        int $modifiers,
-        bool $virtual
+        $modifiers,
+        $virtual
     )
     {
         $this->realName = $realName;
@@ -129,7 +129,7 @@ final class Property
      *
      * @return string
      */
-    public function getRealName(): string
+    public function getRealName()
     {
         return $this->realName;
     }
@@ -139,7 +139,7 @@ final class Property
      *
      * @return string
      */
-    public function getSerializedName(): string
+    public function getSerializedName()
     {
         return $this->serializedName;
     }
@@ -149,7 +149,7 @@ final class Property
      *
      * @return PhpType
      */
-    public function getType(): PhpType
+    public function getType()
     {
         return $this->type;
     }
@@ -159,7 +159,7 @@ final class Property
      *
      * @return AnnotationSet
      */
-    public function getAnnotations(): AnnotationSet
+    public function getAnnotations()
     {
         return $this->annotations;
     }
@@ -169,7 +169,7 @@ final class Property
      *
      * @return int
      */
-    public function getModifiers(): int
+    public function getModifiers()
     {
         return $this->modifiers;
     }
@@ -179,7 +179,7 @@ final class Property
      *
      * @return bool
      */
-    public function isVirtual(): bool
+    public function isVirtual()
     {
         return $this->virtual;
     }
@@ -189,7 +189,7 @@ final class Property
      *
      * @return bool
      */
-    public function skipSerialize(): bool
+    public function skipSerialize()
     {
         return $this->skipSerialize;
     }
@@ -199,7 +199,7 @@ final class Property
      *
      * @param bool $skipSerialize
      */
-    public function setSkipSerialize(bool $skipSerialize): void
+    public function setSkipSerialize($skipSerialize)
     {
         $this->skipSerialize = $skipSerialize;
     }
@@ -209,7 +209,7 @@ final class Property
      *
      * @return bool
      */
-    public function skipDeserialize(): bool
+    public function skipDeserialize()
     {
         return $this->skipDeserialize;
     }
@@ -219,7 +219,7 @@ final class Property
      *
      * @param bool $skipDeserialize
      */
-    public function setSkipDeserialize(bool $skipDeserialize): void
+    public function setSkipDeserialize($skipDeserialize)
     {
         $this->skipDeserialize = $skipDeserialize;
     }
@@ -241,7 +241,7 @@ final class Property
      * @param object $object
      * @param mixed $value
      */
-    public function set($object, $value): void
+    public function set($object, $value)
     {
         if (null === $value) {
             return;

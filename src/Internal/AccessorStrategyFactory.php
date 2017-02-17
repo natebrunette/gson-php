@@ -35,7 +35,7 @@ final class AccessorStrategyFactory
      * @param ReflectionMethod|null $getterMethod
      * @return GetterStrategy
      */
-    public function getterStrategy(ReflectionProperty $reflectionProperty, ReflectionMethod $getterMethod = null): GetterStrategy
+    public function getterStrategy(ReflectionProperty $reflectionProperty, ReflectionMethod $getterMethod = null)
     {
         if (null !== $getterMethod) {
             return new GetByMethod($getterMethod->getName());
@@ -57,7 +57,7 @@ final class AccessorStrategyFactory
      * @param ReflectionMethod|null $setterMethod
      * @return SetterStrategy
      */
-    public function setterStrategy(ReflectionProperty $reflectionProperty, ReflectionMethod $setterMethod = null): SetterStrategy
+    public function setterStrategy(ReflectionProperty $reflectionProperty, ReflectionMethod $setterMethod = null)
     {
         if (null !== $setterMethod) {
             return new SetByMethod($setterMethod->getName());

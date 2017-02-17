@@ -55,7 +55,7 @@ class Exclude
      * @param bool $serialize
      * @return bool
      */
-    public function shouldExclude(bool $serialize): bool
+    public function shouldExclude($serialize)
     {
         return $serialize ? $this->serialize : $this->deserialize;
     }

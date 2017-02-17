@@ -29,7 +29,7 @@ final class CreateWithoutArguments implements ObjectConstructor
      *
      * @param string $class
      */
-    public function __construct(string $class)
+    public function __construct($class)
     {
         $this->class = $class;
     }

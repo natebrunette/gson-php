@@ -24,7 +24,7 @@ final class StringTypeAdapter extends TypeAdapter
      * @param JsonReadable $reader
      * @return mixed
      */
-    public function read(JsonReadable $reader): ?string
+    public function read(JsonReadable $reader)
     {
         if ($reader->peek() === JsonToken::NULL) {
             return $reader->nextNull();
@@ -40,7 +40,7 @@ final class StringTypeAdapter extends TypeAdapter
      * @param string $value
      * @return void
      */
-    public function write(JsonWritable $writer, $value): void
+    public function write(JsonWritable $writer, $value)
     {
         if (null === $value) {
             $writer->writeNull();

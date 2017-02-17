@@ -29,7 +29,7 @@ final class GetByPublicProperty implements GetterStrategy
      *
      * @param string $propertyName
      */
-    public function __construct(string $propertyName)
+    public function __construct($propertyName)
     {
         $this->propertyName = $propertyName;
     }

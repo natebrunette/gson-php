@@ -25,7 +25,7 @@ class JsonAdapterMock
      * @VirtualProperty()
      * @JsonAdapter("Tebru\Gson\Internal\TypeAdapter\BooleanTypeAdapter")
      */
-    public function virtualProperty(): string
+    public function virtualProperty()
     {
         return 'foo'.'bar';
     }
