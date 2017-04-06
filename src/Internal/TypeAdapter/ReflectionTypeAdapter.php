@@ -8,6 +8,8 @@ namespace Tebru\Gson\Internal\TypeAdapter;
 
 use Tebru\Gson\Annotation\JsonAdapter;
 use Tebru\Gson\ClassMetadata;
+use Tebru\Gson\Exception\UnexpectedJsonTokenException;
+use Tebru\Gson\Exception\UnexpectedJsonTokenIteratorException;
 use Tebru\Gson\Internal\Data\AnnotationSet;
 use Tebru\Gson\Internal\Data\MetadataPropertyCollection;
 use Tebru\Gson\Internal\Data\Property;
@@ -107,6 +109,7 @@ final class ReflectionTypeAdapter extends TypeAdapter
         $object = $this->objectConstructor->construct();
 
         $reader->beginObject();
+        $unexpectedJsonTokenExceptions = [];
         while ($reader->hasNext()) {
             $name = $reader->nextName();
             $property = $this->properties->getBySerializedName($name);
@@ -125,9 +128,20 @@ final class ReflectionTypeAdapter extends TypeAdapter
                 ? $this->typeAdapterProvider->getAdapter($property->getType())
                 : $this->typeAdapterProvider->getAdapterFromAnnotation($property->getType(), $jsonAdapterAnnotation);
 
-            $property->set($object, $adapter->read($reader));
+            try {
+                $property->set($object, $adapter->read($reader));
+            } catch (UnexpectedJsonTokenException $exception) {
+                $unexpectedJsonTokenExceptions[$property->getRealName()] = $exception;
+                if (!$exception instanceof UnexpectedJsonTokenIteratorException) {
+                    $reader->skipValue();
+                }
+            }
         }
         $reader->endObject();
+
+        if (count($unexpectedJsonTokenExceptions) > 0) {
+            throw new UnexpectedJsonTokenIteratorException($unexpectedJsonTokenExceptions);
+        }
 
         return $object;
     }
