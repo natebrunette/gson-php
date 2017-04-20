@@ -8,6 +8,7 @@ namespace Tebru\Gson\Internal\TypeAdapter;
 
 use LogicException;
 use Tebru\Gson\Exception\UnexpectedJsonTokenException;
+use Tebru\Gson\Exception\UnexpectedJsonTokenIteratorException;
 use Tebru\Gson\Internal\JsonDecodeReader;
 use Tebru\Gson\JsonWritable;
 use Tebru\Gson\Internal\DefaultPhpType;
@@ -71,48 +72,61 @@ final class ArrayTypeAdapter extends TypeAdapter
             throw new LogicException('Array may not have more than 2 generic types');
         }
 
+        $unexpectedJsonTokenExceptions = [];
         switch ($token) {
             case JsonToken::BEGIN_OBJECT:
                 $reader->beginObject();
 
                 while ($reader->hasNext()) {
                     $name = $reader->nextName();
+                    $originalName = $name;
 
-                    switch (count($generics)) {
-                        // no generics specified
-                        case 0:
-                            // By now we know that we're deserializing a json object to an array.
-                            // If there is a nested object, continue deserializing to an array,
-                            // otherwise guess the type using the wildcard
-                            $type = $reader->peek() === JsonToken::BEGIN_OBJECT
-                                ? new DefaultPhpType(TypeToken::TYPE_ARRAY)
-                                : new DefaultPhpType(TypeToken::WILDCARD);
+                    try {
+                        switch (count($generics)) {
+                            // no generics specified
+                            case 0:
+                                // By now we know that we're deserializing a json object to an array.
+                                // If there is a nested object, continue deserializing to an array,
+                                // otherwise guess the type using the wildcard
+                                $type = $reader->peek() === JsonToken::BEGIN_OBJECT
+                                    ? new DefaultPhpType(TypeToken::TYPE_ARRAY)
+                                    : new DefaultPhpType(TypeToken::WILDCARD);
 
-                            $adapter = $this->typeAdapterProvider->getAdapter($type);
-                            $array[$name] = $adapter->read($reader);
+                                $adapter = $this->typeAdapterProvider->getAdapter($type);
+                                $array[$name] = $adapter->read($reader);
 
-                            break;
-                        // generic for value specified
-                        case 1:
-                            $adapter = $this->typeAdapterProvider->getAdapter($generics[0]);
-                            $array[$name] = $adapter->read($reader);
+                                break;
+                            // generic for value specified
+                            case 1:
+                                $adapter = $this->typeAdapterProvider->getAdapter($generics[0]);
+                                $array[$name] = $adapter->read($reader);
 
-                            break;
-                        // generic for key and value specified
-                        case 2:
-                            /** @var PhpType $keyType */
-                            $keyType = $generics[0];
-                            if ($keyType->isString()) {
-                                $name = sprintf('"%s"', $name);
-                            }
+                                break;
+                            // generic for key and value specified
+                            case 2:
+                                /** @var PhpType $keyType */
+                                $keyType = $generics[0];
+                                if ($keyType->isString()) {
+                                    $name = sprintf('"%s"', $name);
+                                }
 
-                            $keyAdapter = $this->typeAdapterProvider->getAdapter($keyType);
-                            $name = $keyAdapter->read(new JsonDecodeReader($name));
+                                $keyAdapter = $this->typeAdapterProvider->getAdapter($keyType);
+                                try {
+                                    $name = $keyAdapter->read(new JsonDecodeReader($name));
+                                } catch (UnexpectedJsonTokenException $exception) {
+                                    throw new UnexpectedJsonTokenException('Key: ' . $exception->getMessage());
+                                }
 
-                            $valueAdapter = $this->typeAdapterProvider->getAdapter($generics[1]);
-                            $array[$name] = $valueAdapter->read($reader);
+                                $valueAdapter = $this->typeAdapterProvider->getAdapter($generics[1]);
+                                $array[$name] = $valueAdapter->read($reader);
 
-                            break;
+                                break;
+                        }
+                    } catch (UnexpectedJsonTokenException $exception) {
+                        $unexpectedJsonTokenExceptions[$originalName] = $exception;
+                        if (!$exception instanceof UnexpectedJsonTokenIteratorException) {
+                            $reader->skipValue();
+                        }
                     }
                 }
 
@@ -122,22 +136,31 @@ final class ArrayTypeAdapter extends TypeAdapter
             case JsonToken::BEGIN_ARRAY:
                 $reader->beginArray();
 
+                $index = 0;
                 while ($reader->hasNext()) {
-                    switch (count($generics)) {
-                        // no generics specified
-                        case 0:
-                            $adapter = $this->typeAdapterProvider->getAdapter(new DefaultPhpType(TypeToken::WILDCARD));
-                            $array[] = $adapter->read($reader);
+                    try {
+                        switch (count($generics)) {
+                            // no generics specified
+                            case 0:
+                                $adapter = $this->typeAdapterProvider->getAdapter(new DefaultPhpType(TypeToken::WILDCARD));
+                                $array[$index] = $adapter->read($reader);
 
-                            break;
-                        case 1:
-                            $adapter = $this->typeAdapterProvider->getAdapter($generics[0]);
-                            $array[] = $adapter->read($reader);
+                                break;
+                            case 1:
+                                $adapter = $this->typeAdapterProvider->getAdapter($generics[0]);
+                                $array[$index] = $adapter->read($reader);
 
-                            break;
-                        default:
-                            throw new LogicException('An array may only specify a generic type for the value');
+                                break;
+                            default:
+                                throw new LogicException('An array may only specify a generic type for the value');
+                        }
+                    } catch (UnexpectedJsonTokenException $exception) {
+                        $unexpectedJsonTokenExceptions[$index] = $exception;
+                        if (!$exception instanceof UnexpectedJsonTokenIteratorException) {
+                            $reader->skipValue();
+                        }
                     }
+                    $index++;
                 }
 
                 $reader->endArray();
@@ -145,6 +168,10 @@ final class ArrayTypeAdapter extends TypeAdapter
                 break;
             default:
                 throw new UnexpectedJsonTokenException(sprintf('Could not parse json, expected array or object but found "%s"', $token));
+        }
+
+        if (count($unexpectedJsonTokenExceptions) > 0) {
+            throw new UnexpectedJsonTokenIteratorException($unexpectedJsonTokenExceptions);
         }
 
         return $array;
