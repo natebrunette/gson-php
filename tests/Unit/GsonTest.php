@@ -6,8 +6,9 @@
 
 namespace Tebru\Gson\Test\Unit;
 
-use BadMethodCallException;
 use DateTime;
+use InvalidArgumentException;
+use LogicException;
 use PHPUnit_Framework_TestCase;
 use ReflectionProperty;
 use Tebru\Gson\Gson;
@@ -46,7 +47,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -57,9 +58,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -75,20 +76,20 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
         self::assertAttributeSame('protected', 'protected', $gsonMock);
-        self::assertSame(null, $gsonMock->getSince());
+        self::assertNull($gsonMock->getSince());
         self::assertSame('until', $gsonMock->getUntil());
         self::assertSame('accessor', $gsonMock->getMyAccessor());
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -104,20 +105,20 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
         self::assertAttributeSame('protected', 'protected', $gsonMock);
         self::assertSame('since', $gsonMock->getSince());
-        self::assertSame(null, $gsonMock->getUntil());
+        self::assertNull($gsonMock->getUntil());
         self::assertSame('accessor', $gsonMock->getMyAccessor());
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -133,7 +134,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -144,9 +145,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -159,23 +160,23 @@ class GsonTest extends PHPUnit_Framework_TestCase
         /** @var GsonMock $gsonMock */
         $gsonMock = $gson->fromJson($this->json(), GsonMock::class);
 
-        self::assertSame(null, $gsonMock->getInteger());
-        self::assertSame(null, $gsonMock->getFloat());
-        self::assertSame(null, $gsonMock->getString());
-        self::assertSame(null, $gsonMock->getBoolean());
-        self::assertSame(null, $gsonMock->getArray());
-        self::assertSame(null, $gsonMock->getDate());
-        self::assertSame(null, $gsonMock->public);
+        self::assertNull($gsonMock->getInteger());
+        self::assertNull($gsonMock->getFloat());
+        self::assertNull($gsonMock->getString());
+        self::assertNull($gsonMock->getBoolean());
+        self::assertNull($gsonMock->getArray());
+        self::assertNull($gsonMock->getDate());
+        self::assertNull($gsonMock->public);
         self::assertAttributeSame(null, 'protected', $gsonMock);
-        self::assertSame(null, $gsonMock->getSince());
-        self::assertSame(null, $gsonMock->getUntil());
-        self::assertSame(null, $gsonMock->getMyAccessor());
-        self::assertSame(null, $gsonMock->getSerializedname());
-        self::assertSame(null, $gsonMock->getType());
-        self::assertSame(null, $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(null, $gsonMock->getExcludeFromStrategy());
+        self::assertNull($gsonMock->getSince());
+        self::assertNull($gsonMock->getUntil());
+        self::assertNull($gsonMock->getMyAccessor());
+        self::assertNull($gsonMock->getSerializedname());
+        self::assertNull($gsonMock->getType());
+        self::assertNull($gsonMock->getJsonAdapter());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertNull($gsonMock->getExcludeFromStrategy());
         self::assertEquals(null, $gsonMock->getGsonObjectMock());
     }
 
@@ -191,7 +192,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(2, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -202,9 +203,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([2, 3, 4], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -220,7 +221,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -231,9 +232,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -249,7 +250,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(2, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -260,9 +261,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([2, 3, 4], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -278,7 +279,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(2, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -289,9 +290,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([2, 3, 4], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -307,7 +308,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(2, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -318,9 +319,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([2, 3, 4], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -336,7 +337,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -347,9 +348,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -365,7 +366,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -376,9 +377,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -394,7 +395,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -405,9 +406,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(null, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertNull($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -446,7 +447,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -457,9 +458,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -475,7 +476,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame(1, $gsonMock->getInteger());
         self::assertSame(3.2, $gsonMock->getFloat());
         self::assertSame('foo', $gsonMock->getString());
-        self::assertSame(false, $gsonMock->getBoolean());
+        self::assertFalse($gsonMock->getBoolean());
         self::assertSame(['foo' => 'bar'], $gsonMock->getArray());
         self::assertSame('2017-01-01T12:01:23-06:00', $gsonMock->getDate()->format(DateTime::ATOM));
         self::assertSame('public', $gsonMock->public);
@@ -486,9 +487,9 @@ class GsonTest extends PHPUnit_Framework_TestCase
         self::assertSame('serializedname', $gsonMock->getSerializedname());
         self::assertSame([1, 2, 3], $gsonMock->getType());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getJsonAdapter());
-        self::assertSame(false, $gsonMock->getExpose());
-        self::assertSame(null, $gsonMock->getExclude());
-        self::assertSame(true, $gsonMock->getExcludeFromStrategy());
+        self::assertFalse($gsonMock->getExpose());
+        self::assertNull($gsonMock->getExclude());
+        self::assertTrue($gsonMock->getExcludeFromStrategy());
         self::assertEquals(new GsonObjectMock('bar'), $gsonMock->getGsonObjectMock());
     }
 
@@ -502,7 +503,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         /** @var GsonMock $gsonMock */
         $gsonMock = $gson->fromJson($this->json(), $gsonMock);
 
-        self::assertSame(false, $gsonMock->getExclude());
+        self::assertFalse($gsonMock->getExclude());
     }
 
     public function testSerializeSimple()
@@ -577,8 +578,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         $result = $gson->toJson($this->gsonMock());
         $json = json_decode($this->json(), true);
         $json['virtual'] = 2;
-        unset($json['exclude']);
-        unset($json['since']);
+        unset($json['exclude'], $json['since']);
 
         self::assertJsonStringEqualsJsonString(json_encode($json), $result);
     }
@@ -593,8 +593,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         $result = $gson->toJson($this->gsonMock());
         $json = json_decode($this->json(), true);
         $json['virtual'] = 2;
-        unset($json['exclude']);
-        unset($json['until']);
+        unset($json['exclude'], $json['until']);
 
         self::assertJsonStringEqualsJsonString(json_encode($json), $result);
     }
@@ -609,8 +608,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         $result = $gson->toJson($this->gsonMock());
         $json = json_decode($this->json(), true);
         $json['virtual'] = 2;
-        unset($json['exclude']);
-        unset($json['protected']);
+        unset($json['exclude'], $json['protected']);
 
         self::assertJsonStringEqualsJsonString(json_encode($json), $result);
     }
@@ -677,12 +675,15 @@ class GsonTest extends PHPUnit_Framework_TestCase
 
     public function testSerializeWithInvalidHandler()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Handler of type "Tebru\Gson\Test\Mock\ChildClass" is not supported');
-
-        Gson::builder()
-            ->registerType('foo', new ChildClass())
-            ->build();
+        try {
+            Gson::builder()
+                ->registerType('foo', new ChildClass())
+                ->build();
+        } catch (InvalidArgumentException $exception) {
+            self::assertSame('Handler of type "Tebru\Gson\Test\Mock\ChildClass" is not supported', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testSerializeWithExclusionStrategy()
@@ -695,8 +696,7 @@ class GsonTest extends PHPUnit_Framework_TestCase
         $result = $gson->toJson($this->gsonMock());
         $json = json_decode($this->json(), true);
         $json['virtual'] = 2;
-        unset($json['exclude']);
-        unset($json['exclude_from_strategy']);
+        unset($json['exclude'], $json['exclude_from_strategy']);
 
         self::assertJsonStringEqualsJsonString(json_encode($json), $result);
     }
@@ -745,12 +745,15 @@ class GsonTest extends PHPUnit_Framework_TestCase
 
     public function testEnableCacheWithoutDirectoryThrowsException()
     {
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Cannot enable cache without a cache directory');
-
-        Gson::builder()
-            ->enableCache(true)
-            ->build();
+        try {
+            Gson::builder()
+                ->enableCache(true)
+                ->build();
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot enable cache without a cache directory', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     private function json()

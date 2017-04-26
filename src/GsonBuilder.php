@@ -6,13 +6,13 @@
 
 namespace Tebru\Gson;
 
-use BadMethodCallException;
 use DateTime;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\ChainCache;
 use Doctrine\Common\Cache\FilesystemCache;
+use InvalidArgumentException;
 use LogicException;
 use ReflectionProperty;
 use Tebru\Gson\Internal\AccessorMethodProvider;
@@ -26,7 +26,6 @@ use Tebru\Gson\Internal\MetadataFactory;
 use Tebru\Gson\Internal\Naming\PropertyNamer;
 use Tebru\Gson\Internal\Naming\SnakePropertyNamingStrategy;
 use Tebru\Gson\Internal\Naming\UpperCaseMethodNamingStrategy;
-use Tebru\Gson\Internal\DefaultPhpType;
 use Tebru\Gson\Internal\PhpTypeFactory;
 use Tebru\Gson\Internal\TypeAdapter\Factory\ArrayTypeAdapterFactory;
 use Tebru\Gson\Internal\TypeAdapter\Factory\BooleanTypeAdapterFactory;
@@ -43,6 +42,7 @@ use Tebru\Gson\Internal\TypeAdapter\Factory\StringTypeAdapterFactory;
 use Tebru\Gson\Internal\TypeAdapter\Factory\WildcardTypeAdapterFactory;
 use Tebru\Gson\Internal\TypeAdapter\Factory\WrappedTypeAdapterFactory;
 use Tebru\Gson\Internal\TypeAdapterProvider;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class GsonBuilder
@@ -154,36 +154,36 @@ class GsonBuilder
      * @param string $type
      * @param $handler
      * @return GsonBuilder
-     * @throws \BadMethodCallException If the handler is not supported
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
+     * @throws \InvalidArgumentException
+     * @throws \Tebru\PhpType\Exception\MalformedTypeException If the type cannot be parsed
      */
     public function registerType($type, $handler)
     {
         if ($handler instanceof TypeAdapter) {
-            $this->typeAdapterFactories[] = new WrappedTypeAdapterFactory($handler, new DefaultPhpType($type));
+            $this->typeAdapterFactories[] = new WrappedTypeAdapterFactory($handler, new TypeToken($type));
 
             return $this;
         }
 
         if ($handler instanceof JsonSerializer && $handler instanceof JsonDeserializer) {
-            $this->typeAdapterFactories[] = new CustomWrappedTypeAdapterFactory(new DefaultPhpType($type), $handler, $handler);
+            $this->typeAdapterFactories[] = new CustomWrappedTypeAdapterFactory(new TypeToken($type), $handler, $handler);
 
             return $this;
         }
 
         if ($handler instanceof JsonSerializer) {
-            $this->typeAdapterFactories[] = new CustomWrappedTypeAdapterFactory(new DefaultPhpType($type), $handler);
+            $this->typeAdapterFactories[] = new CustomWrappedTypeAdapterFactory(new TypeToken($type), $handler);
 
             return $this;
         }
 
         if ($handler instanceof JsonDeserializer) {
-            $this->typeAdapterFactories[] = new CustomWrappedTypeAdapterFactory(new DefaultPhpType($type), null, $handler);
+            $this->typeAdapterFactories[] = new CustomWrappedTypeAdapterFactory(new TypeToken($type), null, $handler);
 
             return $this;
         }
 
-        throw new BadMethodCallException(sprintf('Handler of type "%s" is not supported', get_class($handler)));
+        throw new InvalidArgumentException(sprintf('Handler of type "%s" is not supported', get_class($handler)));
     }
 
     /**
@@ -192,12 +192,12 @@ class GsonBuilder
      * @param string $type
      * @param InstanceCreator $instanceCreator
      * @return GsonBuilder
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
+     * @throws \Tebru\PhpType\Exception\MalformedTypeException If the type cannot be parsed
      */
     public function addInstanceCreator($type, InstanceCreator $instanceCreator)
     {
-        $phpType = new DefaultPhpType($type);
-        $this->instanceCreators[$phpType->getType()] = $instanceCreator;
+        $phpType = new TypeToken($type);
+        $this->instanceCreators[$phpType->getRawType()] = $instanceCreator;
 
         return $this;
     }
@@ -340,8 +340,8 @@ class GsonBuilder
      * Builds a new [@see Gson] object based on configuration set
      *
      * @return Gson
-     * @throws \InvalidArgumentException If there was a problem creating the cache
-     * @throws \LogicException If trying to cache without a cache directory
+     * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
     public function build()
     {
@@ -357,15 +357,9 @@ class GsonBuilder
         $reader = new CachedReader(new AnnotationReader(), $doctrineAnnotationCache);
 
         $cache = false === $this->enableCache ? new ArrayCache() : new ChainCache([new ArrayCache(), new FilesystemCache($this->cacheDir)]);
-        $cache->setNamespace('property_collection_cache');
+        $cache->setNamespace('gson');
 
-        $annotationCache = false === $this->enableCache ? new ArrayCache(): new ChainCache([new ArrayCache(), new FilesystemCache($this->cacheDir)]);
-        $annotationCache->setNamespace('annotation_cache');
-
-        $typeAdapterCache = new ArrayCache();
-        $typeAdapterCache->setNamespace('type_adapter_cache');
-
-        $annotationCollectionFactory = new AnnotationCollectionFactory($reader, $annotationCache);
+        $annotationCollectionFactory = new AnnotationCollectionFactory($reader, $cache);
         $excluder = new Excluder();
         $excluder->setVersion($this->version);
         $excluder->setExcludedModifiers($this->excludedModifiers);
@@ -389,7 +383,6 @@ class GsonBuilder
         $constructorConstructor = new ConstructorConstructor($this->instanceCreators);
         $typeAdapterProvider = new TypeAdapterProvider(
             $this->getTypeAdapterFactories($propertyCollectionFactory, $excluder, $annotationCollectionFactory, $metadataFactory, $constructorConstructor),
-            $typeAdapterCache,
             $constructorConstructor
         );
 

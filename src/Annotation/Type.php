@@ -6,9 +6,8 @@
 
 namespace Tebru\Gson\Annotation;
 
-use LogicException;
-use Tebru\Gson\Internal\DefaultPhpType;
-use Tebru\Gson\PhpType;
+use OutOfBoundsException;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class Type
@@ -33,43 +32,28 @@ class Type
     private $value;
 
     /**
-     * A map of additional data that might be associated with the type
-     *
-     * For example, a DateTime object might need formatting options
-     *
-     *     @Type(DateTime::class, options={"format": "Y-m-d"})
-     *
-     * @var array
-     */
-    private $options = [];
-
-    /**
      * Constructor
      *
      * @param array $params
-     * @throws \LogicException If value does not exist in params array
+     * @throws \OutOfBoundsException
      */
     public function __construct(array $params)
     {
         if (!isset($params['value'])) {
-            throw new LogicException('@Type annotation must specify a type as the first argument');
+            throw new OutOfBoundsException('@Type annotation must specify a type as the first argument');
         }
 
         $this->value = $params['value'];
-
-        if (isset($params['options'])) {
-            $this->options = (array) $params['options'];
-        }
     }
 
     /**
      * Returns the php type
      *
-     * @return PhpType
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
+     * @return TypeToken
+     * @throws \Tebru\PhpType\Exception\MalformedTypeException If the type cannot be parsed
      */
     public function getType()
     {
-        return new DefaultPhpType($this->value, $this->options);
+        return new TypeToken($this->value);
     }
 }

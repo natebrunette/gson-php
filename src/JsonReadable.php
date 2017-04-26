@@ -108,4 +108,11 @@ interface JsonReadable
      * @return void
      */
     public function skipValue();
+
+    /**
+     * Get the current read path in json xpath format
+     *
+     * @return string
+     */
+    public function getPath();
 }

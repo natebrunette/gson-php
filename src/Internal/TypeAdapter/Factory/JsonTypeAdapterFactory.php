@@ -10,9 +10,9 @@ use Tebru\Gson\Annotation\JsonAdapter;
 use Tebru\Gson\Internal\Data\AnnotationCollectionFactory;
 use Tebru\Gson\Internal\Data\AnnotationSet;
 use Tebru\Gson\Internal\TypeAdapterProvider;
-use Tebru\Gson\PhpType;
 use Tebru\Gson\TypeAdapter;
 use Tebru\Gson\TypeAdapterFactory;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class JsonTypeAdapterFactory
@@ -40,21 +40,20 @@ final class JsonTypeAdapterFactory implements TypeAdapterFactory
      * Will be called before ::create() is called.  The current type will be passed
      * in.  Return false if ::create() should not be called.
      *
-     * @param PhpType $type
+     * @param TypeToken $type
      * @return bool
-     * @throws \InvalidArgumentException If the type does not exist
      */
-    public function supports(PhpType $type)
+    public function supports(TypeToken $type)
     {
         if (!$type->isObject()) {
             return false;
         }
 
-        if (!class_exists($type->getType())) {
+        if (!class_exists($type->getRawType())) {
             return false;
         }
 
-        $annotations = $this->annotationCollectionFactory->createClassAnnotations($type->getType());
+        $annotations = $this->annotationCollectionFactory->createClassAnnotations($type->getRawType());
 
         return null !== $annotations->getAnnotation(JsonAdapter::class, AnnotationSet::TYPE_CLASS);
     }
@@ -63,15 +62,15 @@ final class JsonTypeAdapterFactory implements TypeAdapterFactory
      * Accepts the current type and a [@see TypeAdapterProvider] in case another type adapter needs
      * to be fetched during creation.  Should return a new instance of the TypeAdapter.
      *
-     * @param PhpType $type
+     * @param TypeToken $type
      * @param TypeAdapterProvider $typeAdapterProvider
      * @return TypeAdapter
-     * @throws \InvalidArgumentException if an invalid adapter is found
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
+     * @throws \InvalidArgumentException
+     * @throws \Tebru\PhpType\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function create(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
+    public function create(TypeToken $type, TypeAdapterProvider $typeAdapterProvider)
     {
-        $annotations = $this->annotationCollectionFactory->createClassAnnotations($type->getType());
+        $annotations = $this->annotationCollectionFactory->createClassAnnotations($type->getRawType());
 
         /** @var JsonAdapter $annotation */
         $annotation = $annotations->getAnnotation(JsonAdapter::class, AnnotationSet::TYPE_CLASS);

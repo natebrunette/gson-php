@@ -28,8 +28,8 @@ final class JsonElementTypeAdapter extends TypeAdapter
      * Read the next value, convert it to its type and return it
      *
      * @param JsonReadable $reader
-     * @return mixed
-     * @throws \LogicException If the token can not be handled
+     * @return JsonElement
+     * @throws \LogicException
      */
     public function read(JsonReadable $reader)
     {
@@ -64,7 +64,7 @@ final class JsonElementTypeAdapter extends TypeAdapter
 
                 return new JsonNull();
             default:
-                throw new LogicException(sprintf('Could not handle token "%s"', $reader->peek()));
+                throw new LogicException(sprintf('Could not handle token "%s" at "%s"', $reader->peek(), $reader->getPath()));
         }
     }
 
@@ -74,7 +74,7 @@ final class JsonElementTypeAdapter extends TypeAdapter
      * @param JsonWritable $writer
      * @param JsonElement $value
      * @return void
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function write(JsonWritable $writer, $value)
     {

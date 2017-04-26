@@ -8,6 +8,7 @@ namespace Tebru\Gson\Internal;
 
 use Tebru\Gson\Element\JsonElement;
 use Tebru\Gson\JsonDeserializationContext;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class DefaultJsonDeserializationContext
@@ -39,12 +40,12 @@ final class DefaultJsonDeserializationContext implements JsonDeserializationCont
      * @param JsonElement $jsonElement
      * @param string $type
      * @return mixed
-     * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
+     * @throws \InvalidArgumentException
+     * @throws \Tebru\PhpType\Exception\MalformedTypeException If the type cannot be parsed
      */
     public function deserialize(JsonElement $jsonElement, $type)
     {
-        $typeAdapter = $this->typeAdapterProvider->getAdapter(new DefaultPhpType($type));
+        $typeAdapter = $this->typeAdapterProvider->getAdapter(new TypeToken($type));
 
         return $typeAdapter->readFromJsonElement($jsonElement);
     }

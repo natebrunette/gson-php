@@ -3,9 +3,11 @@
  * Copyright (c) Nate Brunette.
  * Distributed under the MIT License (http://opensource.org/licenses/MIT)
  */
+
 namespace Tebru\Gson;
 
 use Tebru\Gson\Internal\Data\AnnotationSet;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Interface PropertyMetadata
@@ -33,7 +35,7 @@ interface PropertyMetadata
     /**
      * Get the full php type object
      *
-     * @return PhpType
+     * @return TypeToken
      */
     public function getType();
 

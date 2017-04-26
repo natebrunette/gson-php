@@ -8,7 +8,6 @@ namespace Tebru\Gson\Internal;
 
 use Tebru\Gson\ClassMetadata;
 use Tebru\Gson\Internal\Data\AnnotationCollectionFactory;
-use Tebru\Gson\Internal\Data\AnnotationSet;
 use Tebru\Gson\Internal\Data\Property;
 use Tebru\Gson\PropertyMetadata;
 
@@ -42,7 +41,6 @@ final class MetadataFactory
      *
      * @param string $className
      * @return ClassMetadata
-     * @throws \InvalidArgumentException If the type does not exist
      */
     public function createClassMetadata($className)
     {

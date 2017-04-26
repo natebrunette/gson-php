@@ -7,7 +7,7 @@
 namespace Tebru\Gson\Element;
 
 use JsonSerializable;
-use Tebru\Gson\Exception\UnsupportedMethodException;
+use Tebru\Gson\Exception\UnsupportedOperationException;
 
 /**
  * Class JsonElement
@@ -112,76 +112,76 @@ abstract class JsonElement implements JsonSerializable
      * Cast the value to a string
      *
      * @return string
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function asString()
     {
-        throw new UnsupportedMethodException(sprintf('This method "asString" is not supported on "%s"', get_called_class()));
+        throw new UnsupportedOperationException(sprintf('This method "asString" is not supported on "%s"', get_called_class()));
     }
 
     /**
      * Cast the value to an integer
      *
      * @return int
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function asInteger()
     {
-        throw new UnsupportedMethodException(sprintf('This method "asInteger" is not supported on "%s"', get_called_class()));
+        throw new UnsupportedOperationException(sprintf('This method "asInteger" is not supported on "%s"', get_called_class()));
     }
 
     /**
      * Cast the value to a float
      *
      * @return float
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function asFloat()
     {
-        throw new UnsupportedMethodException(sprintf('This method "asFloat" is not supported on "%s"', get_called_class()));
+        throw new UnsupportedOperationException(sprintf('This method "asFloat" is not supported on "%s"', get_called_class()));
     }
 
     /**
      * Cast the value to a boolean
      *
      * @return bool
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function asBoolean()
     {
-        throw new UnsupportedMethodException(sprintf('This method "asBoolean" is not supported on "%s"', get_called_class()));
+        throw new UnsupportedOperationException(sprintf('This method "asBoolean" is not supported on "%s"', get_called_class()));
     }
 
     /**
      * Get the value as a JsonObject
      *
      * @return JsonObject
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function asJsonObject()
     {
-        throw new UnsupportedMethodException(sprintf('This method "asJsonObject" is not supported on "%s"', get_called_class()));
+        throw new UnsupportedOperationException(sprintf('This method "asJsonObject" is not supported on "%s"', get_called_class()));
     }
 
     /**
      * Get the value as a JsonArray
      *
      * @return JsonArray
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function asJsonArray()
     {
-        throw new UnsupportedMethodException(sprintf('This method "asJsonArray" is not supported on "%s"', get_called_class()));
+        throw new UnsupportedOperationException(sprintf('This method "asJsonArray" is not supported on "%s"', get_called_class()));
     }
 
     /**
      * Get the current value
      *
      * @return mixed
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function getValue()
     {
-        throw new UnsupportedMethodException(sprintf('This method "getValue" is not supported on "%s"', get_called_class()));
+        throw new UnsupportedOperationException(sprintf('This method "getValue" is not supported on "%s"', get_called_class()));
     }
 }

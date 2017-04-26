@@ -5,7 +5,7 @@
  */
 namespace Tebru\Gson\Test\Unit\Internal;
 
-use BadMethodCallException;
+use LogicException;
 use PHPUnit_Framework_TestCase;
 use Tebru\Gson\Internal\JsonEncodeWriter;
 
@@ -27,12 +27,15 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testBeginArrayDuringObject()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call beginArray() before name() during object serialization');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
-        $writer->beginArray();
+        try {
+            $writer->beginArray();
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call beginArray() before name() during object serialization', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testEndArray()
@@ -46,21 +49,27 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testEndArrayDuringObject()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call endArray() if not serializing array');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
-        $writer->endArray();
+        try {
+            $writer->endArray();
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call endArray() if not serializing array', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testEndArrayFirst()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call endArray() if not serializing array');
-
         $writer = new JsonEncodeWriter();
-        $writer->endArray();
+        try {
+            $writer->endArray();
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call endArray() if not serializing array', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testNestedArrays()
@@ -85,12 +94,15 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testBeginObjectDuringObject()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call beginObject() before name() during object serialization');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
-        $writer->beginObject();
+        try {
+            $writer->beginObject();
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call beginObject() before name() during object serialization', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testEndObject()
@@ -104,21 +116,27 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testEndObjectDuringArray()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call endObject() if not serializing object');
-
         $writer = new JsonEncodeWriter();
         $writer->beginArray();
-        $writer->endObject();
+        try {
+            $writer->endObject();
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call endObject() if not serializing object', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testEndObjectFirst()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call endObject() if not serializing object');
-
         $writer = new JsonEncodeWriter();
-        $writer->endObject();
+        try {
+            $writer->endObject();
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call endObject() if not serializing object', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testNestedObjects()
@@ -146,13 +164,16 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testNameTwice()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call name() at this point.  Either name() has already been called or object serialization has not been started');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
         $writer->name('foo');
-        $writer->name('foo');
+        try {
+            $writer->name('foo');
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call name() at this point.  Either name() has already been called or object serialization has not been started', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testWriteInteger()
@@ -165,12 +186,15 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testWriteIntegerDuringObject()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call writeInteger() before name() during object serialization');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
-        $writer->writeInteger(1);
+        try {
+            $writer->writeInteger(1);
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call writeInteger() before name() during object serialization', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testWriteFloat()
@@ -191,12 +215,15 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testWriteFloatDuringObject()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call writeFloat() before name() during object serialization');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
-        $writer->writeFloat(1);
+        try {
+            $writer->writeFloat(1);
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call writeFloat() before name() during object serialization', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testWriteString()
@@ -209,12 +236,15 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testWriteStringDuringObject()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call writeString() before name() during object serialization');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
-        $writer->writeString('foo');
+        try {
+            $writer->writeString('foo');
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call writeString() before name() during object serialization', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testWriteBoolean()
@@ -235,12 +265,15 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testWriteBooleanDuringObject()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call writeBoolean() before name() during object serialization');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
-        $writer->writeBoolean(true);
+        try {
+            $writer->writeBoolean(true);
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call writeBoolean() before name() during object serialization', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testWriteNull()
@@ -284,32 +317,41 @@ class JsonEncodeWriterTest extends PHPUnit_Framework_TestCase
 
     public function testWriteNullDuringBeginObject()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot call writeNull() before name() during object serialization');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
-        $writer->writeNull();
+        try {
+            $writer->writeNull();
+        } catch (LogicException $exception) {
+            self::assertSame('Cannot call writeNull() before name() during object serialization', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testWriteTwoScalars()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Attempting to write two different types');
-
         $writer = new JsonEncodeWriter();
         $writer->writeString('foo');
-        $writer->writeString('bar');
+        try {
+            $writer->writeString('bar');
+        } catch (LogicException $exception) {
+            self::assertSame('Attempting to write two different types', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testWriteTwice()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Attempting to write two different types');
-
         $writer = new JsonEncodeWriter();
         $writer->beginObject();
         $writer->endObject();
-        $writer->writeString('bar');
+        try {
+            $writer->writeString('bar');
+        } catch (LogicException $exception) {
+            self::assertSame('Attempting to write two different types', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 }

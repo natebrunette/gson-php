@@ -8,8 +8,7 @@ namespace Tebru\Gson\Internal;
 
 use ArrayIterator;
 use stdClass;
-use Tebru\Gson\Exception\UnexpectedJsonTokenException;
-use Tebru\Gson\JsonReadable;
+use Tebru\Gson\Exception\JsonParseException;
 use Tebru\Gson\JsonToken;
 
 /**
@@ -17,187 +16,107 @@ use Tebru\Gson\JsonToken;
  *
  * @author Nate Brunette <n@tebru.net>
  */
-final class JsonDecodeReader implements JsonReadable
+final class JsonDecodeReader extends JsonReader
 {
-    /**
-     * A stack representing the next element to be consumed
-     *
-     * @var array
-     */
-    private $stack = [];
-
-    /**
-     * An array of types that map to the position in the stack
-     *
-     * @var array
-     */
-    private $stackTypes = [];
-
-    /**
-     * The current size of the stack
-     *
-     * @var int
-     */
-    private $stackSize = 0;
-
-    /**
-     * A cache of the current [@see JsonToken].  This should get nulled out
-     * whenever a new token should be returned with the subsequent call
-     * to [@see JsonDecodeReader::peek]
-     *
-     * @var
-     */
-    private $currentToken;
-
     /**
      * Constructor
      *
      * @param string $json
+     * @throws \Tebru\Gson\Exception\JsonParseException If the json cannot be decoded
      */
     public function __construct($json)
     {
         $this->push(json_decode($json));
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new JsonParseException(sprintf('Could not decode json, the error message was: "%s"', json_last_error_msg()));
+        }
     }
 
     /**
      * Consumes the next token and asserts it's the beginning of a new array
      *
      * @return void
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not BEGIN_ARRAY
+     * @throws \Tebru\Gson\Exception\JsonSyntaxException If the next token is not BEGIN_ARRAY
      */
     public function beginArray()
     {
-        if ($this->peek() !== JsonToken::BEGIN_ARRAY) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::BEGIN_ARRAY, $this->peek())
-            );
-        }
+        $this->expect(JsonToken::BEGIN_ARRAY);
 
         $array = $this->pop();
         $this->push(new ArrayIterator($array), ArrayIterator::class);
-    }
-
-    /**
-     * Consumes the next token and asserts it's the end of an array
-     *
-     * @return void
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not END_ARRAY
-     */
-    public function endArray()
-    {
-        if ($this->peek() !== JsonToken::END_ARRAY) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::END_ARRAY, $this->peek())
-            );
-        }
-
-        $this->pop();
+        $this->pathIndices[$this->stackSize - 1] = 0;
     }
 
     /**
      * Consumes the next token and asserts it's the beginning of a new object
      *
      * @return void
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not BEGIN_OBJECT
+     * @throws \Tebru\Gson\Exception\JsonSyntaxException If the next token is not BEGIN_OBJECT
      */
     public function beginObject()
     {
-        if ($this->peek() !== JsonToken::BEGIN_OBJECT) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::BEGIN_OBJECT, $this->peek())
-            );
-        }
+        $this->expect(JsonToken::BEGIN_OBJECT);
 
         $this->push(new StdClassIterator($this->pop()), StdClassIterator::class);
-    }
-
-    /**
-     * Consumes the next token and asserts it's the end of an object
-     *
-     * @return void
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not END_OBJECT
-     */
-    public function endObject()
-    {
-        if ($this->peek() !== JsonToken::END_OBJECT) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::END_OBJECT, $this->peek())
-            );
-        }
-
-        $this->pop();
-    }
-
-    /**
-     * Returns true if the array or object has another element
-     *
-     * If the current scope is not an array or object, this returns false
-     *
-     * @return bool
-     */
-    public function hasNext()
-    {
-        $peek = $this->peek();
-
-        return $peek !== JsonToken::END_OBJECT && $peek !== JsonToken::END_ARRAY;
     }
 
     /**
      * Consumes the value of the next token, asserts it's a boolean and returns it
      *
      * @return bool
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not BOOLEAN
+     * @throws \Tebru\Gson\Exception\JsonSyntaxException If the next token is not BOOLEAN
      */
     public function nextBoolean()
     {
-        if ($this->peek() !== JsonToken::BOOLEAN) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::BOOLEAN, $this->peek())
-            );
-        }
+        $this->expect(JsonToken::BOOLEAN);
 
-        return $this->pop();
+        $result = (bool)$this->pop();
+
+        $this->incrementPathIndex();
+
+        return $result;
     }
 
     /**
      * Consumes the value of the next token, asserts it's a double and returns it
      *
      * @return double
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NUMBER
+     * @throws \Tebru\Gson\Exception\JsonSyntaxException If the next token is not NUMBER
      */
     public function nextDouble()
     {
-        if ($this->peek() !== JsonToken::NUMBER) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::NUMBER, $this->peek())
-            );
-        }
+        $this->expect(JsonToken::NUMBER);
 
-        return (float)$this->pop();
+        $result = (float)$this->pop();
+
+        $this->incrementPathIndex();
+
+        return $result;
     }
 
     /**
      * Consumes the value of the next token, asserts it's an int and returns it
      *
      * @return int
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NUMBER
+     * @throws \Tebru\Gson\Exception\JsonSyntaxException If the next token is not NUMBER
      */
     public function nextInteger()
     {
-        if ($this->peek() !== JsonToken::NUMBER) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::NUMBER, $this->peek())
-            );
-        }
+        $this->expect(JsonToken::NUMBER);
 
-        return (int)$this->pop();
+        $result = (int)$this->pop();
+
+        $this->incrementPathIndex();
+
+        return $result;
     }
 
     /**
      * Consumes the value of the next token, asserts it's a string and returns it
      *
      * @return string
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NAME or STRING
+     * @throws \Tebru\Gson\Exception\JsonSyntaxException If the next token is not NAME or STRING
      */
     public function nextString()
     {
@@ -206,57 +125,13 @@ final class JsonDecodeReader implements JsonReadable
             return $this->nextName();
         }
 
-        if ($peek !== JsonToken::STRING) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::STRING, $this->peek())
-            );
-        }
+        $this->expect(JsonToken::STRING);
 
-        return $this->pop();
-    }
+        $result = (string)$this->pop();
 
-    /**
-     * Consumes the value of the next token and asserts it's null
-     *
-     * @return null
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NAME or NULL
-     */
-    public function nextNull()
-    {
-        if ($this->peek() !== JsonToken::NULL) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::NULL, $this->peek())
-            );
-        }
+        $this->incrementPathIndex();
 
-        $this->pop();
-
-        return null;
-    }
-
-    /**
-     * Consumes the next name and returns it
-     *
-     * @return string
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If the next token is not NAME
-     */
-    public function nextName()
-    {
-        if ($this->peek() !== JsonToken::NAME) {
-            throw new UnexpectedJsonTokenException(
-                sprintf('Expected "%s", but found "%s"', JsonToken::NAME, $this->peek())
-            );
-        }
-
-        /** @var StdClassIterator $iterator */
-        $iterator = $this->stack[$this->stackSize - 1];
-        $key = $iterator->key();
-        $value = $iterator->current();
-        $iterator->next();
-
-        $this->push($value);
-
-        return $key;
+        return $result;
     }
 
     /**
@@ -298,9 +173,11 @@ final class JsonDecodeReader implements JsonReadable
                 $token = JsonToken::NULL;
                 break;
             case StdClassIterator::class:
+                /** @var StdClassIterator $element */
                 $token = $element->valid() ? JsonToken::NAME : JsonToken::END_OBJECT;
                 break;
             case ArrayIterator::class:
+                /** @var ArrayIterator $element */
                 if ($element->valid()) {
                     $this->push($element->current());
                     $element->next();
@@ -325,23 +202,33 @@ final class JsonDecodeReader implements JsonReadable
     }
 
     /**
-     * Skip the next value.  If the next value is an object or array, all children will
-     * also be skipped.
+     * Get the current read path in json xpath format
      *
-     * @return void
+     * @return string
      */
-    public function skipValue()
+    public function getPath()
     {
-        $this->pop();
+        $result = '$';
+        foreach ($this->stack as $index => $item) {
+            if ($item instanceof ArrayIterator && isset($this->pathIndices[$index])) {
+                $result .= '['.$this->pathIndices[$index].']';
+            }
+
+            if ($item instanceof StdClassIterator && isset($this->pathNames[$index])) {
+                $result .= '.'.$this->pathNames[$index];
+            }
+        }
+
+        return $result;
     }
 
     /**
      * Push an element onto the stack
      *
      * @param mixed $element
-     * @param string $type
+     * @param string|null $type
      */
-    private function push($element, $type = null)
+    protected function push($element, $type = null)
     {
         if (null === $type) {
             $type = gettype($element);
@@ -351,19 +238,5 @@ final class JsonDecodeReader implements JsonReadable
         $this->stackTypes[$this->stackSize] = $type;
         $this->stackSize++;
         $this->currentToken = null;
-    }
-
-    /**
-     * Pop the last element off the stack and return it
-     *
-     * @return mixed
-     */
-    private function pop()
-    {
-        $this->stackSize--;
-        array_pop($this->stackTypes);
-        $this->currentToken = null;
-
-        return array_pop($this->stack);
     }
 }

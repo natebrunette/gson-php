@@ -5,7 +5,7 @@
  */
 namespace Tebru\Gson\Test\Unit\Element;
 
-use BadMethodCallException;
+use LogicException;
 use PHPUnit_Framework_TestCase;
 use Tebru\Gson\Element\JsonArray;
 use Tebru\Gson\Element\JsonObject;
@@ -105,13 +105,16 @@ class JsonObjectTest extends PHPUnit_Framework_TestCase
 
     public function testGetAsPrimitiveException()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('This value is not a primitive');
-
         $jsonObject = new JsonObject();
         $jsonObject->add('foo', new JsonObject());
 
-        $jsonObject->getAsJsonPrimitive('foo');
+        try {
+            $jsonObject->getAsJsonPrimitive('foo');
+        } catch (LogicException $exception) {
+            self::assertSame('This value is not a primitive', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testGetAsJsonArray()
@@ -127,13 +130,16 @@ class JsonObjectTest extends PHPUnit_Framework_TestCase
 
     public function testGetAsJsonArrayException()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('This value is not an array');
-
         $jsonObject = new JsonObject();
         $jsonObject->add('foo', new JsonObject());
 
-        $jsonObject->getAsJsonArray('foo');
+        try {
+            $jsonObject->getAsJsonArray('foo');
+        } catch (LogicException $exception) {
+            self::assertSame('This value is not an array', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testGetAsJsonObject()
@@ -149,13 +155,16 @@ class JsonObjectTest extends PHPUnit_Framework_TestCase
 
     public function testGetAsJsonObjectException()
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('This value is not an object');
-
         $jsonObject = new JsonObject();
         $jsonObject->add('foo', new JsonArray());
 
-        $jsonObject->getAsJsonObject('foo');
+        try {
+            $jsonObject->getAsJsonObject('foo');
+        } catch (LogicException $exception) {
+            self::assertSame('This value is not an object', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testGetAsString()
@@ -187,7 +196,7 @@ class JsonObjectTest extends PHPUnit_Framework_TestCase
         $jsonObject = new JsonObject();
         $jsonObject->addBoolean('foo', false);
 
-        self::assertSame(false, $jsonObject->getAsBoolean('foo'));
+        self::assertFalse($jsonObject->getAsBoolean('foo'));
     }
 
     public function testGetAsArray()

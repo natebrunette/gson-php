@@ -9,7 +9,7 @@ namespace Tebru\Gson\Internal;
 use ReflectionMethod;
 use Tebru\Gson\Annotation\Type;
 use Tebru\Gson\Internal\Data\AnnotationSet;
-use Tebru\Gson\PhpType;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class PhpTypeFactory
@@ -33,8 +33,8 @@ final class PhpTypeFactory
      * @param int $filter
      * @param ReflectionMethod|null $getterMethod
      * @param ReflectionMethod|null $setterMethod
-     * @return PhpType
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
+     * @return TypeToken
+     * @throws \Tebru\PhpType\Exception\MalformedTypeException If the type cannot be parsed
      */
     public function create(AnnotationSet $annotations, $filter, ReflectionMethod $getterMethod = null, ReflectionMethod $setterMethod = null)
     {
@@ -48,17 +48,17 @@ final class PhpTypeFactory
         if (null !== $setterMethod && [] !== $setterMethod->getParameters()) {
             $parameter = $setterMethod->getParameters()[0];
             if (null !== $parameter->getClass()) {
-                return new DefaultPhpType((string) $parameter->getClass()->getName());
+                return new TypeToken((string) $parameter->getClass()->getName());
             }
         }
 
         if (null !== $setterMethod && [] !== $setterMethod->getParameters()) {
             $parameter = $setterMethod->getParameters()[0];
             if ($parameter->isDefaultValueAvailable() && null !== $parameter->getDefaultValue()) {
-                return new DefaultPhpType(gettype($parameter->getDefaultValue()));
+                return new TypeToken(gettype($parameter->getDefaultValue()));
             }
         }
 
-        return new DefaultPhpType(TypeToken::WILDCARD);
+        return new TypeToken(TypeToken::WILDCARD);
     }
 }

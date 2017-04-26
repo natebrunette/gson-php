@@ -7,16 +7,13 @@
 namespace Tebru\Gson\Internal\TypeAdapter;
 
 use LogicException;
-use Tebru\Gson\Exception\UnexpectedJsonTokenException;
-use Tebru\Gson\Internal\JsonDecodeReader;
+use Tebru\Gson\Exception\JsonSyntaxException;
 use Tebru\Gson\JsonWritable;
-use Tebru\Gson\Internal\DefaultPhpType;
 use Tebru\Gson\Internal\TypeAdapterProvider;
-use Tebru\Gson\Internal\TypeToken;
 use Tebru\Gson\JsonReadable;
 use Tebru\Gson\JsonToken;
-use Tebru\Gson\PhpType;
 use Tebru\Gson\TypeAdapter;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class ArrayTypeAdapter
@@ -26,7 +23,7 @@ use Tebru\Gson\TypeAdapter;
 final class ArrayTypeAdapter extends TypeAdapter
 {
     /**
-     * @var PhpType
+     * @var TypeToken
      */
     private $type;
 
@@ -38,10 +35,10 @@ final class ArrayTypeAdapter extends TypeAdapter
     /**
      * Constructor
      *
-     * @param PhpType $type
+     * @param TypeToken $type
      * @param TypeAdapterProvider $typeAdapterProvider
      */
-    public function __construct(PhpType $type, TypeAdapterProvider $typeAdapterProvider)
+    public function __construct(TypeToken $type, TypeAdapterProvider $typeAdapterProvider)
     {
         $this->type = $type;
         $this->typeAdapterProvider = $typeAdapterProvider;
@@ -51,11 +48,11 @@ final class ArrayTypeAdapter extends TypeAdapter
      * Read the next value, convert it to its type and return it
      *
      * @param JsonReadable $reader
-     * @return mixed
-     * @throws \Tebru\Gson\Exception\UnexpectedJsonTokenException If trying to read from non object/array
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
-     * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
-     * @throws \LogicException If the wrong number of generics exist
+     * @return array|null
+     * @throws \InvalidArgumentException
+     * @throws \LogicException
+     * @throws \Tebru\Gson\Exception\JsonSyntaxException If trying to read from non object/array
+     * @throws \Tebru\PhpType\Exception\MalformedTypeException If the type cannot be parsed
      */
     public function read(JsonReadable $reader)
     {
@@ -68,7 +65,7 @@ final class ArrayTypeAdapter extends TypeAdapter
         $generics = $this->type->getGenerics();
 
         if (count($generics) > 2) {
-            throw new LogicException('Array may not have more than 2 generic types');
+            throw new LogicException(sprintf('Array may not have more than 2 generic types at "%s"', $reader->getPath()));
         }
 
         switch ($token) {
@@ -85,8 +82,8 @@ final class ArrayTypeAdapter extends TypeAdapter
                             // If there is a nested object, continue deserializing to an array,
                             // otherwise guess the type using the wildcard
                             $type = $reader->peek() === JsonToken::BEGIN_OBJECT
-                                ? new DefaultPhpType(TypeToken::TYPE_ARRAY)
-                                : new DefaultPhpType(TypeToken::WILDCARD);
+                                ? new TypeToken(TypeToken::HASH)
+                                : new TypeToken(TypeToken::WILDCARD);
 
                             $adapter = $this->typeAdapterProvider->getAdapter($type);
                             $array[$name] = $adapter->read($reader);
@@ -100,14 +97,20 @@ final class ArrayTypeAdapter extends TypeAdapter
                             break;
                         // generic for key and value specified
                         case 2:
-                            /** @var PhpType $keyType */
+                            /** @var TypeToken $keyType */
                             $keyType = $generics[0];
-                            if ($keyType->isString()) {
-                                $name = sprintf('"%s"', $name);
+
+                            if (!$keyType->isString() && !$keyType->isInteger()) {
+                                throw new LogicException(sprintf('Array keys must be strings or integers at "%s"', $reader->getPath()));
                             }
 
-                            $keyAdapter = $this->typeAdapterProvider->getAdapter($keyType);
-                            $name = $keyAdapter->read(new JsonDecodeReader($name));
+                            if ($keyType->isInteger()) {
+                                if (!ctype_digit($name)) {
+                                    throw new JsonSyntaxException(sprintf('Expected integer, but found string for key at "%s"', $reader->getPath()));
+                                }
+
+                                $name = (int)$name;
+                            }
 
                             $valueAdapter = $this->typeAdapterProvider->getAdapter($generics[1]);
                             $array[$name] = $valueAdapter->read($reader);
@@ -126,7 +129,7 @@ final class ArrayTypeAdapter extends TypeAdapter
                     switch (count($generics)) {
                         // no generics specified
                         case 0:
-                            $adapter = $this->typeAdapterProvider->getAdapter(new DefaultPhpType(TypeToken::WILDCARD));
+                            $adapter = $this->typeAdapterProvider->getAdapter(new TypeToken(TypeToken::WILDCARD));
                             $array[] = $adapter->read($reader);
 
                             break;
@@ -136,7 +139,7 @@ final class ArrayTypeAdapter extends TypeAdapter
 
                             break;
                         default:
-                            throw new LogicException('An array may only specify a generic type for the value');
+                            throw new LogicException(sprintf('An array may only specify a generic type for the value at "%s"', $reader->getPath()));
                     }
                 }
 
@@ -144,7 +147,7 @@ final class ArrayTypeAdapter extends TypeAdapter
 
                 break;
             default:
-                throw new UnexpectedJsonTokenException(sprintf('Could not parse json, expected array or object but found "%s"', $token));
+                throw new JsonSyntaxException(sprintf('Could not parse json, expected array or object but found "%s" at "%s"', $token, $reader->getPath()));
         }
 
         return $array;
@@ -156,9 +159,7 @@ final class ArrayTypeAdapter extends TypeAdapter
      * @param JsonWritable $writer
      * @param array $value
      * @return void
-     * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
-     * @throws \LogicException If the wrong number of generics exist
+     * @throws \LogicException
      */
     public function write(JsonWritable $writer, $value)
     {
@@ -190,7 +191,7 @@ final class ArrayTypeAdapter extends TypeAdapter
                         $writer->name((string)$key);
                     }
 
-                    $adapter = $this->typeAdapterProvider->getAdapter(DefaultPhpType::createFromVariable($item));
+                    $adapter = $this->typeAdapterProvider->getAdapter(TypeToken::createFromVariable($item));
                     $adapter->write($writer, $item);
 
                     break;

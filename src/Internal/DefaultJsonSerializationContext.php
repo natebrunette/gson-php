@@ -8,6 +8,7 @@ namespace Tebru\Gson\Internal;
 
 use Tebru\Gson\Element\JsonElement;
 use Tebru\Gson\JsonSerializationContext;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class DefaultJsonSerializationContext
@@ -37,12 +38,11 @@ final class DefaultJsonSerializationContext implements JsonSerializationContext
      *
      * @param mixed $object
      * @return JsonElement
-     * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
+     * @throws \InvalidArgumentException
      */
     public function serialize($object)
     {
-        $typeAdapter = $this->typeAdapterProvider->getAdapter(DefaultPhpType::createFromVariable($object));
+        $typeAdapter = $this->typeAdapterProvider->getAdapter(TypeToken::createFromVariable($object));
 
         return $typeAdapter->writeToJsonElement($object);
     }

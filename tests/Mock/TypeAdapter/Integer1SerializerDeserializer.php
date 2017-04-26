@@ -14,9 +14,9 @@ use Tebru\Gson\JsonDeserializationContext;
 use Tebru\Gson\JsonDeserializer;
 use Tebru\Gson\JsonSerializationContext;
 use Tebru\Gson\JsonSerializer;
-use Tebru\Gson\PhpType;
 use Tebru\Gson\Test\Mock\GsonMock;
 use Tebru\Gson\Test\Mock\GsonObjectMock;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class Integer1SerializerDeserializer
@@ -30,11 +30,11 @@ class Integer1SerializerDeserializer implements JsonDeserializer, JsonSerializer
      * the JsonDeserializationContext if you want to delegate deserialization of sub types.
      *
      * @param JsonElement $jsonElement
-     * @param PhpType $type
+     * @param TypeToken $type
      * @param JsonDeserializationContext $context
      * @return mixed
      */
-    public function deserialize(JsonElement $jsonElement, PhpType $type, JsonDeserializationContext $context)
+    public function deserialize(JsonElement $jsonElement, TypeToken $type, JsonDeserializationContext $context)
     {
         $json = $jsonElement->asJsonObject();
 
@@ -51,9 +51,9 @@ class Integer1SerializerDeserializer implements JsonDeserializer, JsonSerializer
         $mock->setMyAccessor($json->getAsString('accessor'));
         $mock->setSerializedname($json->getAsString('serialized_name'));
 
-        $type = $json->getAsArray('type');
-        $type = array_map(function ($value) { return $value + 1; }, $type);
-        $mock->setType($type);
+        $array = $json->getAsArray('type');
+        $array = array_map(function ($value) { return $value + 1; }, $array);
+        $mock->setType($array);
 
         $mock->setJsonAdapter(new GsonObjectMock($json->getAsString('json_adapter')));
         $mock->setExpose($json->getAsBoolean('expose'));
@@ -69,11 +69,11 @@ class Integer1SerializerDeserializer implements JsonDeserializer, JsonSerializer
      * return a JsonElement.
      *
      * @param GsonMock $object
-     * @param PhpType $type
+     * @param TypeToken $type
      * @param JsonSerializationContext $context
      * @return JsonElement
      */
-    public function serialize($object, PhpType $type, JsonSerializationContext $context)
+    public function serialize($object, TypeToken $type, JsonSerializationContext $context)
     {
         $jsonObject = new JsonObject();
         $jsonObject->addInteger('integer', $object->getInteger() + 1);

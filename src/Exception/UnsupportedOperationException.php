@@ -9,10 +9,10 @@ namespace Tebru\Gson\Exception;
 use RuntimeException;
 
 /**
- * Class UnsupportedMethodException
+ * Class UnsupportedOperationException
  *
  * @author Nate Brunette <n@tebru.net>
  */
-class UnsupportedMethodException extends RuntimeException
+class UnsupportedOperationException extends RuntimeException
 {
 }

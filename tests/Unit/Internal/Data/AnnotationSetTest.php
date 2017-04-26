@@ -106,11 +106,15 @@ class AnnotationSetTest extends PHPUnit_Framework_TestCase
 
     public function testCannotAddAnnotationWithInvalidType()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Type not supported');
 
         $set = new AnnotationSet();
-        $set->addAnnotation(new Since(['value' => '1']), 10);
+        try {
+            $set->addAnnotation(new Since(['value' => '1']), 10);
+        } catch (InvalidArgumentException $exception) {
+            self::assertSame('Type not supported', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 
     public function testToArray()
@@ -131,11 +135,13 @@ class AnnotationSetTest extends PHPUnit_Framework_TestCase
 
     public function testCannotCallToArrayWithInvalidType()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Type not supported');
-
         $set = new AnnotationSet();
-        $set->toArray(10);
-
+        try {
+            $set->toArray(10);
+        } catch (InvalidArgumentException $exception) {
+            self::assertSame('Type not supported', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 }

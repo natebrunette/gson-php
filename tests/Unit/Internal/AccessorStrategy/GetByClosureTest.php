@@ -33,11 +33,11 @@ class GetByClosureTest extends PHPUnit_Framework_TestCase
 
         try {
             $strategy->get(new GetByClosureTestMock());
-
-            self::assertTrue(false);
-        } catch (Exception $exception) {
+        } catch (Exception $throwable) {
             self::assertTrue(true);
+            return;
         }
+        self::assertTrue(false);
     }
 
     public function testGetterUsesCache()

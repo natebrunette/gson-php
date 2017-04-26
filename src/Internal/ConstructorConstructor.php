@@ -11,7 +11,7 @@ use Tebru\Gson\InstanceCreator;
 use Tebru\Gson\Internal\ObjectConstructor\CreateFromInstanceCreator;
 use Tebru\Gson\Internal\ObjectConstructor\CreateFromReflectionClass;
 use Tebru\Gson\Internal\ObjectConstructor\CreateWithoutArguments;
-use Tebru\Gson\PhpType;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class ConstructorConstructor
@@ -45,12 +45,12 @@ final class ConstructorConstructor
     /**
      * Get the correct [@see ObjectConstructor] to use
      *
-     * @param PhpType $type
+     * @param TypeToken $type
      * @return ObjectConstructor
      */
-    public function get(PhpType $type)
+    public function get(TypeToken $type)
     {
-        $class = $type->getType();
+        $class = $type->getRawType();
         foreach ($this->instanceCreators as $instanceCreatorClass => $creator) {
             if ($type->isA($instanceCreatorClass)) {
                 return new CreateFromInstanceCreator($creator, $type);

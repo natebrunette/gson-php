@@ -6,7 +6,7 @@
 
 namespace Tebru\Gson\Test\Unit\Annotation;
 
-use LogicException;
+use OutOfBoundsException;
 use PHPUnit_Framework_TestCase;
 use Tebru\Gson\Annotation\Since;
 
@@ -27,9 +27,12 @@ class SinceTest extends PHPUnit_Framework_TestCase
 
     public function testNoVersion()
     {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('@Since annotation must specify a version as the first argument');
-
-        new Since([]);
+        try {
+            new Since([]);
+        } catch (OutOfBoundsException $exception) {
+            self::assertSame('@Since annotation must specify a version as the first argument', $exception->getMessage());
+            return;
+        }
+        self::assertTrue(false);
     }
 }

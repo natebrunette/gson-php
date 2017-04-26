@@ -6,15 +6,14 @@
 
 namespace Tebru\Gson\Internal;
 
-use Doctrine\Common\Cache\CacheProvider;
 use InvalidArgumentException;
 use Tebru\Gson\Annotation\JsonAdapter;
 use Tebru\Gson\Internal\TypeAdapter\CustomWrappedTypeAdapter;
 use Tebru\Gson\JsonDeserializer;
 use Tebru\Gson\JsonSerializer;
-use Tebru\Gson\PhpType;
 use Tebru\Gson\TypeAdapter;
 use Tebru\Gson\TypeAdapterFactory;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class TypeAdapterProvider
@@ -24,18 +23,18 @@ use Tebru\Gson\TypeAdapterFactory;
 final class TypeAdapterProvider
 {
     /**
-     * A cache of mapped factories
+     * A cache of created type adapters
      *
-     * @var CacheProvider
+     * @var array
      */
-    private $typeAdapterCache;
+    private $typeAdapters = [];
 
     /**
-     * All registered [@see TypeAdapter]s
+     * All registered [@see TypeAdapter] factories
      *
      * @var TypeAdapterFactory[]
      */
-    private $typeAdapterFactories = [];
+    private $typeAdapterFactories;
 
     /**
      * @var ConstructorConstructor
@@ -46,25 +45,12 @@ final class TypeAdapterProvider
      * Constructor
      *
      * @param array $typeAdapterFactories
-     * @param CacheProvider $cache
      * @param ConstructorConstructor $constructorConstructor
      */
-    public function __construct(array $typeAdapterFactories, CacheProvider $cache, ConstructorConstructor $constructorConstructor)
+    public function __construct(array $typeAdapterFactories, ConstructorConstructor $constructorConstructor)
     {
         $this->typeAdapterFactories = $typeAdapterFactories;
-        $this->typeAdapterCache = $cache;
         $this->constructorConstructor = $constructorConstructor;
-    }
-
-    /**
-     * Add type adapter directly into cache
-     *
-     * @param string $type
-     * @param TypeAdapter $typeAdapter
-     */
-    public function addTypeAdapter($type, TypeAdapter $typeAdapter)
-    {
-        $this->typeAdapterCache->save($type, $typeAdapter);
     }
 
     /**
@@ -72,17 +58,16 @@ final class TypeAdapterProvider
      * Returns the [@see TypeAdapter] if it has already been created, otherwise loops
      * over all of the factories and finds a type adapter that supports the type.
      *
-     * @param PhpType $type
-     * @param TypeAdapterFactory $skip
+     * @param TypeToken $type
+     * @param TypeAdapterFactory|null $skip
      * @return TypeAdapter
      * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
      */
-    public function getAdapter(PhpType $type, TypeAdapterFactory $skip = null)
+    public function getAdapter(TypeToken $type, TypeAdapterFactory $skip = null)
     {
-        $key = $type->getUniqueKey();
-        $typeAdapter = $this->typeAdapterCache->fetch($key);
-        if (null === $skip && false !== $typeAdapter) {
-            return $typeAdapter;
+        $key = (string)$type;
+        if (null === $skip && isset($this->typeAdapters[$key])) {
+            return $this->typeAdapters[$key];
         }
 
         foreach ($this->typeAdapterFactories as $typeAdapterFactory) {
@@ -98,7 +83,7 @@ final class TypeAdapterProvider
 
             // do not save skipped adapters
             if (null === $skip) {
-                $this->typeAdapterCache->save($key, $adapter);
+                $this->typeAdapters[$key] = $adapter;
             }
 
             return $adapter;
@@ -106,7 +91,7 @@ final class TypeAdapterProvider
 
         throw new InvalidArgumentException(sprintf(
             'The type "%s" could not be handled by any of the registered type adapters',
-            (string) $type
+            (string)$type
         ));
     }
 
@@ -115,15 +100,15 @@ final class TypeAdapterProvider
      *
      * The class may be a TypeAdapter, TypeAdapterFactory, JsonSerializer, or JsonDeserializer
      *
-     * @param PhpType $type
+     * @param TypeToken $type
      * @param JsonAdapter $jsonAdapterAnnotation
      * @return TypeAdapter
-     * @throws \InvalidArgumentException if an invalid adapter is found
-     * @throws \Tebru\Gson\Exception\MalformedTypeException If the type cannot be parsed
+     * @throws \InvalidArgumentException
+     * @throws \Tebru\PhpType\Exception\MalformedTypeException If the type cannot be parsed
      */
-    public function getAdapterFromAnnotation(PhpType $type, JsonAdapter $jsonAdapterAnnotation)
+    public function getAdapterFromAnnotation(TypeToken $type, JsonAdapter $jsonAdapterAnnotation)
     {
-        $object = $this->constructorConstructor->get(new DefaultPhpType($jsonAdapterAnnotation->getClass()))->construct();
+        $object = $this->constructorConstructor->get(new TypeToken($jsonAdapterAnnotation->getClass()))->construct();
 
         if ($object instanceof TypeAdapter) {
             return $object;

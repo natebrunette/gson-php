@@ -13,9 +13,9 @@ use Tebru\Gson\Internal\TypeAdapterProvider;
 use Tebru\Gson\JsonDeserializer;
 use Tebru\Gson\JsonReadable;
 use Tebru\Gson\JsonSerializer;
-use Tebru\Gson\PhpType;
 use Tebru\Gson\TypeAdapter;
 use Tebru\Gson\TypeAdapterFactory;
+use Tebru\PhpType\TypeToken;
 
 /**
  * Class CustomWrappedTypeAdapter
@@ -27,7 +27,7 @@ use Tebru\Gson\TypeAdapterFactory;
 final class CustomWrappedTypeAdapter extends TypeAdapter
 {
     /**
-     * @var PhpType
+     * @var TypeToken
      */
     private $type;
 
@@ -54,14 +54,14 @@ final class CustomWrappedTypeAdapter extends TypeAdapter
     /**
      * Constructor
      *
-     * @param PhpType $type
+     * @param TypeToken $type
      * @param TypeAdapterProvider $typeAdapterProvider
-     * @param JsonSerializer $serializer
-     * @param JsonDeserializer $deserializer
-     * @param TypeAdapterFactory $skip
+     * @param JsonSerializer|null $serializer
+     * @param JsonDeserializer|null $deserializer
+     * @param TypeAdapterFactory|null $skip
      */
     public function __construct(
-        PhpType $type,
+        TypeToken $type,
         TypeAdapterProvider $typeAdapterProvider,
         JsonSerializer $serializer = null,
         JsonDeserializer $deserializer = null,
@@ -79,8 +79,7 @@ final class CustomWrappedTypeAdapter extends TypeAdapter
      *
      * @param JsonReadable $reader
      * @return mixed
-     * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
-     * @throws \LogicException If the token can not be handled
+     * @throws \LogicException
      */
     public function read(JsonReadable $reader)
     {
@@ -106,8 +105,8 @@ final class CustomWrappedTypeAdapter extends TypeAdapter
      * @param JsonWritable $writer
      * @param mixed $value
      * @return void
-     * @throws \InvalidArgumentException if the type cannot be handled by a type adapter
-     * @throws \Tebru\Gson\Exception\UnsupportedMethodException
+     * @throws \InvalidArgumentException
+     * @throws \Tebru\Gson\Exception\UnsupportedOperationException
      */
     public function write(JsonWritable $writer, $value)
     {
