@@ -9,10 +9,16 @@
             "email": "n@tebru.net"
         }
     ],
+    "repositories": [
+        {
+            "url": "https://github.com/natebrunette/php-type.git",
+            "type": "git"
+        }
+    ],
     "require": {
         "doctrine/annotations": "^1.2",
         "doctrine/cache": "^1.0",
-        "tebru/php-type": "^0.1.0"
+        "tebru/php-type": "dev-php56"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.5"

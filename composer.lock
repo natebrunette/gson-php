@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "376b56946b126af08c51c533f61404e3",
+    "content-hash": "3a233f234498e6b39493441347d1cc42",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -200,20 +200,14 @@
         },
         {
             "name": "tebru/php-type",
-            "version": "v0.1.1",
+            "version": "dev-php56",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tebru/php-type.git",
-                "reference": "ba578cff7ead9214c57a1c966298cd8e599fa12c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tebru/php-type/zipball/ba578cff7ead9214c57a1c966298cd8e599fa12c",
-                "reference": "ba578cff7ead9214c57a1c966298cd8e599fa12c",
-                "shasum": ""
+                "url": "https://github.com/natebrunette/php-type.git",
+                "reference": "7a7405211dd9722e2b43277410a43cc84d065d89"
             },
             "require": {
-                "php": ">= 7.1"
+                "php": ">= 5.6"
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.7"
@@ -224,7 +218,11 @@
                     "Tebru\\PhpType\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Tebru\\PhpType\\Test\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -235,7 +233,7 @@
                 }
             ],
             "description": "A type wrapper for PHP that support generic syntax",
-            "time": "2017-04-19T17:03:48+00:00"
+            "time": "2017-04-19 17:11:19"
         }
     ],
     "packages-dev": [
@@ -1550,11 +1548,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "tebru/php-type": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {
-        "php": ">= 7.1"
-    },
+    "platform": [],
     "platform-dev": []
 }
