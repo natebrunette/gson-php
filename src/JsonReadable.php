@@ -115,4 +115,11 @@ interface JsonReadable
      * @return string
      */
     public function getPath();
+
+    /**
+     * Returns the original payload after json_decode
+     *
+     * @return mixed
+     */
+    public function getPayload();
 }
